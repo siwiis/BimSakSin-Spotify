@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BimSakSin Spotify</title>
+  <title>BimSakSin Spotify — Studio Pemutar Musik</title>
   <style>
     :root {
-      --bg-base: #070b0a;
-      --bg-elevated: rgba(16, 26, 22, 0.72);
-      --bg-card: rgba(20, 32, 27, 0.66);
-      --bg-card-hover: rgba(29, 48, 40, 0.82);
-      --glass-blur: 18px;
-      --glass-opacity: 0.72;
-      --border-subtle: rgba(110, 231, 183, 0.16);
-      --border-strong: rgba(34, 197, 94, 0.45);
+      --bg-base: #060908;
+      --bg-surface: rgba(13, 21, 17, 0.86);
+      --bg-card: rgba(18, 29, 24, 0.78);
+      --bg-card-hover: rgba(25, 41, 34, 0.94);
+      --bg-input: rgba(7, 12, 10, 0.88);
+      --border-subtle: rgba(134, 239, 172, 0.14);
+      --border-strong: rgba(29, 185, 84, 0.45);
       --text-primary: #f4fbf7;
-      --text-secondary: #a7c0b3;
-      --text-muted: #6c8779;
+      --text-secondary: #a4bdb0;
+      --text-muted: #688275;
       --accent: #1db954;
       --accent-bright: #2ef574;
-      --accent-soft: rgba(29, 185, 84, 0.18);
+      --accent-soft: rgba(29, 185, 84, 0.16);
       --danger: #ef4444;
       --star: #facc15;
       --heart: #f43f5e;
-      --radius-xl: 20px;
-      --radius-lg: 14px;
-      --radius-md: 10px;
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 11px;
       --radius-pill: 999px;
-      --shadow-glass: 0 14px 36px rgba(0, 0, 0, 0.45);
-      --motion-fast: 160ms cubic-bezier(0.22, 1, 0.36, 1);
-      --motion-smooth: 320ms cubic-bezier(0.22, 1, 0.36, 1);
+      --shadow-main: 0 18px 44px rgba(0, 0, 0, 0.55);
+      --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+      --fast: 160ms;
+      --smooth: 300ms;
     }
 
     * {
@@ -40,210 +40,138 @@
 
     html, body {
       min-height: 100%;
-      background-color: var(--bg-base);
+      background:
+        radial-gradient(circle at 12% 10%, rgba(29, 185, 84, 0.18), transparent 42%),
+        radial-gradient(circle at 88% 18%, rgba(16, 185, 129, 0.11), transparent 46%),
+        linear-gradient(180deg, #080f0c 0%, #050807 100%);
       color: var(--text-primary);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Helvetica, Arial, sans-serif;
       overflow-x: hidden;
       -webkit-tap-highlight-color: transparent;
+      padding-bottom: 112px;
     }
 
-    body {
-      position: relative;
-      padding-bottom: 108px;
-    }
-
-    /* Personal Banner Backdrop Layer */
-    .banner-backdrop {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 18% 15%, rgba(29, 185, 84, 0.22), transparent 45%),
-        radial-gradient(circle at 82% 22%, rgba(16, 185, 129, 0.14), transparent 50%),
-        linear-gradient(180deg, #09110e 0%, #060908 100%);
-    }
-
-    .banner-backdrop-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transform: scale(1.04);
-      transition: opacity var(--motion-smooth), transform var(--motion-smooth);
-      filter: saturate(1.12) contrast(1.05);
-    }
-
-    .banner-backdrop-img.active {
-      opacity: 0.48;
-      transform: scale(1);
-    }
-
-    .banner-glass-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      background: rgba(6, 11, 9, var(--glass-opacity));
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      transition: background var(--motion-smooth), backdrop-filter var(--motion-smooth);
-    }
-
-    /* App Shell */
     .app-shell {
-      position: relative;
-      z-index: 2;
       max-width: 1380px;
       margin: 0 auto;
-      padding: 14px 16px 28px;
+      padding: 16px 18px 28px;
     }
 
-    /* Top Header */
-    .top-header {
+    /* Top Bar */
+    .top-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 40;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
+      gap: 14px;
+      padding: 12px 18px;
       border-radius: var(--radius-xl);
-      background: var(--bg-elevated);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--shadow-glass);
-      position: sticky;
-      top: 10px;
-      z-index: 40;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-main);
     }
 
-    .brand-group {
+    .brand-block {
       display: flex;
       align-items: center;
       gap: 12px;
+      flex: 1 1 240px;
       min-width: 0;
-      flex: 1 1 260px;
     }
 
-    /* 3D HD Animated Spotify Slime Logo */
-    .logo-3d-stage {
-      width: 54px;
-      height: 54px;
+    /* 3D HD Animated Logo */
+    .logo-3d-wrap {
+      width: 52px;
+      height: 52px;
       flex-shrink: 0;
-      perspective: 700px;
+      perspective: 680px;
       display: grid;
       place-items: center;
+      position: relative;
       cursor: pointer;
     }
 
-    .logo-3d-emblem {
-      width: 52px;
-      height: 52px;
-      position: relative;
-      transform-style: preserve-3d;
-      animation: logoFloat3D 5.2s ease-in-out infinite;
-      transition: transform var(--motion-smooth), filter var(--motion-smooth);
-      filter: drop-shadow(0 8px 16px rgba(29, 185, 84, 0.35)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85));
+    .logo-3d-glow {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(46, 245, 116, 0.28) 0%, rgba(29, 185, 84, 0) 72%);
+      animation: pulseAura 3.6s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .logo-3d-stage:hover .logo-3d-emblem {
-      transform: rotateY(14deg) rotateX(10deg) scale(1.07);
-      filter: drop-shadow(0 12px 22px rgba(46, 245, 116, 0.5)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
+    .logo-3d-inner {
+      width: 50px;
+      height: 50px;
+      transform-style: preserve-3d;
+      animation: floatLogo 5.2s ease-in-out infinite;
+      transition: transform var(--smooth) var(--ease-out), filter var(--smooth) var(--ease-out);
+      filter: drop-shadow(0 8px 16px rgba(29, 185, 84, 0.35));
+    }
+
+    .logo-3d-wrap:hover .logo-3d-inner {
+      transform: rotateY(14deg) rotateX(10deg) scale(1.06);
+      filter: drop-shadow(0 12px 22px rgba(46, 245, 116, 0.52));
     }
 
     .logo-3d-svg {
       width: 100%;
       height: 100%;
       display: block;
-      overflow: visible;
     }
 
-    .logo-3d-aura {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(46, 245, 116, 0.28) 0%, rgba(29, 185, 84, 0) 70%);
-      animation: logoAuraPulse 3.6s ease-in-out infinite;
-      pointer-events: none;
-      z-index: -1;
+    @keyframes floatLogo {
+      0%, 100% { transform: translate3d(0, 0, 0) rotateZ(-1.5deg) rotateY(-4deg); }
+      50% { transform: translate3d(0, -4px, 8px) rotateZ(2deg) rotateY(6deg); }
     }
 
-    @keyframes logoFloat3D {
-      0%, 100% {
-        transform: translate3d(0, 0, 0) rotateZ(-1.5deg) rotateY(-4deg);
-      }
-      50% {
-        transform: translate3d(0, -4px, 8px) rotateZ(2deg) rotateY(6deg);
-      }
-    }
-
-    @keyframes logoAuraPulse {
-      0%, 100% {
-        transform: scale(0.94);
-        opacity: 0.55;
-      }
-      50% {
-        transform: scale(1.12);
-        opacity: 0.95;
-      }
+    @keyframes pulseAura {
+      0%, 100% { transform: scale(0.94); opacity: 0.55; }
+      50% { transform: scale(1.12); opacity: 0.92; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .logo-3d-emblem,
-      .logo-3d-aura {
-        animation: none;
-      }
-    }
-
-    .brand-copy {
-      min-width: 0;
+      .logo-3d-inner, .logo-3d-glow { animation: none; }
     }
 
     .brand-title {
-      font-size: clamp(1.05rem, 2.2vw, 1.38rem);
+      font-size: clamp(1.06rem, 2vw, 1.35rem);
       font-weight: 800;
       letter-spacing: -0.02em;
-      line-height: 1.15;
-      background: linear-gradient(90deg, #ffffff 0%, #86efac 55%, #2ef574 100%);
+      background: linear-gradient(90deg, #ffffff 0%, #86efac 60%, #2ef574 100%);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
-    .brand-subtitle {
-      font-size: 0.8rem;
+    .brand-sub {
+      font-size: 0.78rem;
       color: var(--text-secondary);
       margin-top: 2px;
-      line-height: 1.3;
     }
 
-    /* Interactive Search Form in Top Header */
-    .search-bar-form {
+    /* Search Bar */
+    .search-form {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex: 1.4 1 310px;
-      max-width: 560px;
-      background: rgba(8, 14, 11, 0.78);
+      flex: 1.5 1 320px;
+      max-width: 580px;
+      background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-pill);
       padding: 5px 6px 5px 14px;
-      transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
+      transition: border-color var(--fast) var(--ease-out), box-shadow var(--fast) var(--ease-out);
     }
 
-    .search-bar-form:focus-within {
+    .search-form:focus-within {
       border-color: var(--accent-bright);
       box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.18);
-    }
-
-    .search-icon {
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
     }
 
     .search-input {
@@ -262,66 +190,65 @@
     }
 
     .search-clear-btn {
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-secondary);
-      border: none;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
       display: none;
       align-items: center;
       justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      cursor: pointer;
       font-size: 0.8rem;
-      flex-shrink: 0;
-      transition: background var(--motion-fast), color var(--motion-fast);
     }
 
     .search-clear-btn.visible {
       display: inline-flex;
     }
 
-    .search-clear-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-      color: var(--text-primary);
-    }
-
-    .search-submit-btn {
+    .search-btn {
       background: linear-gradient(135deg, var(--accent) 0%, var(--accent-bright) 100%);
-      color: #051109;
-      font-weight: 700;
+      color: #051209;
+      font-weight: 800;
       font-size: 0.86rem;
       border: none;
       border-radius: var(--radius-pill);
-      padding: 9px 16px;
+      padding: 9px 18px;
       min-height: 38px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      flex-shrink: 0;
+      gap: 7px;
       white-space: nowrap;
-      transition: transform var(--motion-fast), filter var(--motion-fast);
+      transition: transform var(--fast) var(--ease-out), filter var(--fast) var(--ease-out);
     }
 
-    .search-submit-btn:hover {
+    .search-btn:hover {
       filter: brightness(1.06);
       transform: translateY(-1px);
     }
 
-    .search-submit-btn:active {
-      transform: scale(0.97);
+    .btn-spinner {
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(5, 18, 9, 0.25);
+      border-top-color: #051209;
+      border-radius: 50%;
+      display: none;
+      animation: spinLoader 0.7s linear infinite;
     }
 
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
+    .search-btn.loading .btn-spinner {
+      display: inline-block;
+    }
+
+    @keyframes spinLoader {
+      to { transform: rotate(360deg); }
     }
 
     .pill-btn {
-      background: rgba(17, 29, 24, 0.76);
+      background: rgba(19, 32, 26, 0.85);
       color: var(--text-primary);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-pill);
@@ -333,7 +260,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      transition: background var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
     .pill-btn:hover {
@@ -348,287 +275,75 @@
       color: #86efac;
     }
 
-    /* Search Live Status Strip */
-    .search-status-bar {
-      margin-top: 10px;
-      padding: 8px 14px;
-      border-radius: var(--radius-md);
-      background: rgba(12, 21, 17, 0.7);
-      border: 1px solid rgba(110, 231, 183, 0.12);
+    /* Organized API Status Strip */
+    .api-bar {
+      margin-top: 12px;
+      padding: 10px 16px;
+      border-radius: var(--radius-lg);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
       font-size: 0.83rem;
       color: var(--text-secondary);
     }
 
-    .search-status-left {
-      display: inline-flex;
+    .api-status-text {
+      display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 600;
     }
 
-    .search-spinner {
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(46, 245, 116, 0.25);
-      border-top-color: var(--accent-bright);
-      border-radius: 50%;
-      display: none;
-      animation: spinFast 0.75s linear infinite;
-    }
-
-    .search-status-bar.searching .search-spinner {
-      display: inline-block;
-    }
-
-    @keyframes spinFast {
-      to { transform: rotate(360deg); }
-    }
-
-    .api-pills-mini {
+    .api-group-pills {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       flex-wrap: wrap;
     }
 
-    .api-chip {
-      font-size: 0.72rem;
-      padding: 3px 9px;
+    .api-pill {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 4px 10px;
       border-radius: var(--radius-pill);
-      background: rgba(29, 185, 84, 0.12);
-      border: 1px solid rgba(46, 245, 116, 0.24);
+      background: rgba(29, 185, 84, 0.14);
+      border: 1px solid rgba(46, 245, 116, 0.32);
       color: #bbf7d0;
-      font-weight: 600;
     }
 
-    /* Banner & Minute Telemetry Strip */
-    .banner-studio-panel {
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: var(--radius-xl);
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--shadow-glass);
-      display: grid;
-      grid-template-columns: 1.25fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 860px) {
-      .banner-studio-panel {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .panel-box {
-      background: rgba(9, 16, 13, 0.56);
-      border: 1px solid rgba(110, 231, 183, 0.12);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .panel-header-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .panel-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .panel-caption {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-    }
-
-    .banner-controls-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .banner-thumbs-list {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .banner-thumb-card {
-      position: relative;
-      width: 112px;
-      height: 64px;
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      border: 2px solid transparent;
-      flex-shrink: 0;
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.4);
-      transition: transform var(--motion-fast), border-color var(--motion-fast);
-    }
-
-    .banner-thumb-card.active {
-      border-color: var(--accent-bright);
-      transform: translateY(-2px);
-    }
-
-    .banner-thumb-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .banner-del-btn {
-      position: absolute;
-      top: 4px;
-      right: 4px;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      border: none;
-      background: rgba(10, 14, 12, 0.85);
-      color: #fecaca;
-      font-size: 0.68rem;
-      font-weight: 700;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: background var(--motion-fast), transform var(--motion-fast);
-    }
-
-    .banner-del-btn:hover {
-      background: var(--danger);
-      color: #ffffff;
-      transform: scale(1.08);
-    }
-
-    .range-control {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-    }
-
-    .range-control input[type="range"] {
-      accent-color: var(--accent-bright);
-      width: 110px;
-      cursor: pointer;
-    }
-
-    .minute-readout-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-    }
-
-    .minute-stat-box {
-      background: rgba(16, 27, 22, 0.75);
-      border: 1px solid rgba(110, 231, 183, 0.12);
-      border-radius: var(--radius-md);
-      padding: 8px 10px;
-    }
-
-    .minute-stat-label {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
+    .api-pill.muted {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
       color: var(--text-muted);
     }
 
-    .minute-stat-value {
-      font-size: 0.96rem;
-      font-weight: 700;
-      color: #86efac;
-      margin-top: 2px;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .minute-presets-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .mini-action-btn {
-      background: rgba(24, 38, 32, 0.85);
-      color: var(--text-primary);
-      border: 1px solid rgba(110, 231, 183, 0.16);
-      border-radius: var(--radius-pill);
-      padding: 6px 11px;
-      min-height: 32px;
-      font-size: 0.76rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background var(--motion-fast), border-color var(--motion-fast), transform var(--motion-fast);
-    }
-
-    .mini-action-btn:hover {
-      background: rgba(29, 185, 84, 0.22);
-      border-color: var(--accent-bright);
-      transform: translateY(-1px);
-    }
-
-    .minute-jump-form {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 2px;
-    }
-
-    .minute-jump-input {
-      width: 92px;
-      background: rgba(7, 13, 10, 0.88);
-      border: 1px solid var(--border-subtle);
-      border-radius: var(--radius-md);
-      color: var(--text-primary);
-      padding: 6px 9px;
-      font-size: 0.85rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Main Workspace Layout */
-    .workspace-grid {
+    /* Main Layout */
+    .main-grid {
       margin-top: 16px;
       display: grid;
-      grid-template-columns: 265px 1fr;
+      grid-template-columns: 268px 1fr;
       gap: 16px;
       align-items: start;
     }
 
     @media (max-width: 960px) {
-      .workspace-grid {
+      .main-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    /* Sidebar Navigation */
-    .sidebar-panel {
-      background: var(--bg-elevated);
+    .sidebar {
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
       padding: 14px;
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--shadow-glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-main);
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -648,7 +363,7 @@
       }
     }
 
-    .nav-item-btn {
+    .nav-btn {
       width: 100%;
       text-align: left;
       background: transparent;
@@ -665,27 +380,25 @@
       justify-content: space-between;
       gap: 8px;
       white-space: nowrap;
-      transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
     @media (max-width: 960px) {
-      .nav-item-btn {
-        width: auto;
-      }
+      .nav-btn { width: auto; }
     }
 
-    .nav-item-btn:hover {
+    .nav-btn:hover {
       background: rgba(255, 255, 255, 0.05);
       color: var(--text-primary);
     }
 
-    .nav-item-btn.active {
+    .nav-btn.active {
       background: var(--accent-soft);
       color: var(--accent-bright);
       border-color: var(--border-strong);
     }
 
-    .nav-count-badge {
+    .count-badge {
       font-size: 0.72rem;
       padding: 2px 7px;
       border-radius: var(--radius-pill);
@@ -693,7 +406,7 @@
       color: var(--text-primary);
     }
 
-    .playlist-box {
+    .playlist-section {
       border-top: 1px solid var(--border-subtle);
       padding-top: 12px;
       display: flex;
@@ -701,35 +414,59 @@
       gap: 8px;
     }
 
-    .playlist-create-row {
+    .section-label {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .playlist-form {
       display: flex;
       gap: 6px;
     }
 
-    .playlist-input {
+    .text-input {
       flex: 1;
       min-width: 0;
-      background: rgba(8, 14, 11, 0.78);
+      background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       padding: 8px 10px;
       color: var(--text-primary);
-      font-size: 0.86rem;
+      font-size: 0.88rem;
     }
 
-    /* Main Content Area */
-    .main-content-panel {
-      background: var(--bg-elevated);
+    .mini-btn {
+      background: rgba(24, 38, 32, 0.9);
+      color: var(--text-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-pill);
+      padding: 6px 12px;
+      min-height: 34px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--fast) var(--ease-out);
+    }
+
+    .mini-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent-bright);
+    }
+
+    /* Main Content Panel */
+    .content-panel {
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-xl);
       padding: 18px;
-      backdrop-filter: blur(var(--glass-blur));
-      -webkit-backdrop-filter: blur(var(--glass-blur));
-      box-shadow: var(--shadow-glass);
-      min-height: 440px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: var(--shadow-main);
+      min-height: 460px;
     }
 
-    .section-head {
+    .content-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -738,42 +475,42 @@
       margin-bottom: 14px;
     }
 
-    .section-title {
+    .content-title {
       font-size: 1.18rem;
       font-weight: 800;
       letter-spacing: -0.015em;
     }
 
-    .filter-pills-row {
+    .filter-row {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
-    .filter-pill {
-      background: rgba(16, 27, 22, 0.78);
+    .filter-chip {
+      background: rgba(16, 27, 22, 0.82);
       color: var(--text-secondary);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-pill);
-      padding: 6px 12px;
+      padding: 6px 13px;
       min-height: 34px;
       font-size: 0.78rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
-    .filter-pill.active {
+    .filter-chip.active {
       background: var(--accent);
-      color: #051109;
+      color: #051209;
       border-color: var(--accent-bright);
     }
 
-    /* Upload Drawer / Card inside Penyimpanan */
-    .upload-card {
-      background: rgba(9, 17, 13, 0.68);
+    /* Upload Audio Form */
+    .upload-box {
+      background: rgba(8, 15, 11, 0.74);
       border: 1px dashed var(--border-strong);
       border-radius: var(--radius-lg);
       padding: 14px;
@@ -784,21 +521,21 @@
       align-items: end;
     }
 
-    .field-group {
+    .field-col {
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
 
-    .field-label {
+    .field-lbl {
       font-size: 0.74rem;
       color: var(--text-secondary);
       font-weight: 600;
     }
 
-    .field-input {
+    .field-ctrl {
       width: 100%;
-      background: rgba(6, 11, 9, 0.85);
+      background: var(--bg-input);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
       padding: 8px 10px;
@@ -806,7 +543,7 @@
       font-size: 0.88rem;
     }
 
-    /* Track Cards Grid */
+    /* Tracks Grid */
     .tracks-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
@@ -821,7 +558,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      transition: transform var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
     .track-card:hover {
@@ -835,35 +572,35 @@
       box-shadow: 0 0 0 1px rgba(46, 245, 116, 0.35);
     }
 
-    .track-cover-wrap {
+    .track-cover {
       position: relative;
       border-radius: var(--radius-md);
       overflow: hidden;
       aspect-ratio: 16 / 10;
-      background: rgba(8, 14, 11, 0.9);
+      background: rgba(7, 13, 10, 0.92);
     }
 
-    .track-cover-wrap img {
+    .track-cover img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .track-source-tag {
+    .track-badge {
       position: absolute;
       top: 8px;
       left: 8px;
-      padding: 3px 8px;
+      padding: 3px 9px;
       border-radius: var(--radius-pill);
       font-size: 0.68rem;
       font-weight: 700;
-      background: rgba(6, 12, 9, 0.84);
+      background: rgba(6, 12, 9, 0.86);
       color: #86efac;
       border: 1px solid rgba(46, 245, 116, 0.3);
     }
 
-    .track-duration-tag {
+    .track-duration {
       position: absolute;
       bottom: 8px;
       right: 8px;
@@ -871,7 +608,7 @@
       border-radius: var(--radius-pill);
       font-size: 0.7rem;
       font-weight: 700;
-      background: rgba(6, 12, 9, 0.86);
+      background: rgba(6, 12, 9, 0.88);
       color: var(--text-primary);
       font-variant-numeric: tabular-nums;
     }
@@ -879,7 +616,6 @@
     .track-title {
       font-size: 0.95rem;
       font-weight: 700;
-      color: var(--text-primary);
       line-height: 1.3;
       display: -webkit-box;
       -webkit-line-clamp: 2;
@@ -895,20 +631,20 @@
       text-overflow: ellipsis;
     }
 
-    .track-actions-bar {
+    .track-actions {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 6px;
       flex-wrap: wrap;
       margin-top: auto;
-      padding-top: 6px;
-      border-top: 1px solid rgba(110, 231, 183, 0.08);
+      padding-top: 8px;
+      border-top: 1px solid rgba(134, 239, 172, 0.08);
     }
 
-    .play-track-btn {
+    .play-btn {
       background: var(--accent);
-      color: #051109;
+      color: #051209;
       border: none;
       border-radius: var(--radius-pill);
       padding: 7px 14px;
@@ -919,18 +655,18 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      transition: background var(--motion-fast), transform var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
-    .play-track-btn:hover {
+    .play-btn:hover {
       background: var(--accent-bright);
       transform: scale(1.03);
     }
 
-    .icon-action-btn {
+    .icon-btn {
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-secondary);
-      border: 1px solid rgba(110, 231, 183, 0.14);
+      border: 1px solid rgba(134, 239, 172, 0.14);
       border-radius: var(--radius-md);
       min-width: 34px;
       height: 34px;
@@ -942,71 +678,34 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
-      transition: all var(--motion-fast);
+      transition: all var(--fast) var(--ease-out);
     }
 
-    .icon-action-btn:hover {
+    .icon-btn:hover {
       background: rgba(255, 255, 255, 0.13);
       color: var(--text-primary);
     }
 
-    .icon-action-btn.loved {
+    .icon-btn.loved {
       color: var(--heart);
       border-color: rgba(244, 63, 94, 0.45);
       background: rgba(244, 63, 94, 0.14);
     }
 
-    .icon-action-btn.starred {
+    .icon-btn.starred {
       color: var(--star);
       border-color: rgba(250, 204, 21, 0.45);
       background: rgba(250, 204, 21, 0.14);
     }
 
-    .icon-action-btn.saved-fav {
+    .icon-btn.fav-active {
       color: var(--accent-bright);
       border-color: var(--border-strong);
       background: var(--accent-soft);
     }
 
-    /* YouTube Mini Player Box */
-    .yt-player-dock {
-      margin-top: 14px;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      border: 1px solid var(--border-subtle);
-      background: rgba(6, 10, 8, 0.9);
-      display: none;
-    }
-
-    .yt-player-dock.visible {
-      display: block;
-    }
-
-    .yt-player-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: rgba(16, 28, 22, 0.9);
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .yt-frame-box {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      max-height: 280px;
-    }
-
-    .yt-frame-box iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-
-    /* Sticky Bottom Player Bar */
-    .player-bar {
+    /* Bottom Sticky Player */
+    .player-dock {
       position: fixed;
       left: 12px;
       right: 12px;
@@ -1016,11 +715,11 @@
       margin: 0 auto;
       padding: 10px 16px;
       border-radius: var(--radius-xl);
-      background: rgba(11, 20, 16, 0.88);
+      background: rgba(10, 18, 14, 0.92);
       border: 1px solid var(--border-strong);
       backdrop-filter: blur(22px);
       -webkit-backdrop-filter: blur(22px);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.7);
       display: grid;
       grid-template-columns: 1.15fr 1.4fr 1fr;
       gap: 12px;
@@ -1028,42 +727,38 @@
     }
 
     @media (max-width: 820px) {
-      .player-bar {
+      .player-dock {
         grid-template-columns: 1fr;
         gap: 8px;
         padding: 10px 12px;
       }
     }
 
-    .now-playing-info {
+    .np-box {
       display: flex;
       align-items: center;
       gap: 10px;
       min-width: 0;
     }
 
-    .now-playing-thumb {
+    .np-thumb {
       width: 46px;
       height: 46px;
       border-radius: var(--radius-md);
       object-fit: cover;
       flex-shrink: 0;
-      background: rgba(29, 185, 84, 0.16);
+      background: rgba(29, 185, 84, 0.14);
     }
 
-    .now-playing-meta {
-      min-width: 0;
-    }
-
-    .now-playing-title {
+    .np-meta { min-width: 0; }
+    .np-title {
       font-size: 0.88rem;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-
-    .now-playing-artist {
+    .np-artist {
       font-size: 0.76rem;
       color: var(--text-secondary);
       white-space: nowrap;
@@ -1071,23 +766,23 @@
       text-overflow: ellipsis;
     }
 
-    .player-center-controls {
+    .transport-col {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
     }
 
-    .transport-btns {
+    .transport-row {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .transport-btn {
+    .ctrl-btn {
       background: rgba(255, 255, 255, 0.07);
       color: var(--text-primary);
-      border: 1px solid rgba(110, 231, 183, 0.15);
+      border: 1px solid rgba(134, 239, 172, 0.14);
       width: 36px;
       height: 36px;
       border-radius: 50%;
@@ -1095,40 +790,29 @@
       display: grid;
       place-items: center;
       font-size: 0.86rem;
-      transition: all var(--motion-fast);
     }
 
-    .transport-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-    }
-
-    .transport-btn.active {
+    .ctrl-btn.active {
       color: var(--accent-bright);
       border-color: var(--accent-bright);
       background: var(--accent-soft);
     }
 
-    .main-play-btn {
+    .main-play-circle {
       width: 44px;
       height: 44px;
       border-radius: 50%;
       border: none;
       background: var(--accent-bright);
-      color: #051109;
+      color: #051209;
       font-size: 1rem;
       font-weight: 800;
       cursor: pointer;
       display: grid;
       place-items: center;
-      transition: transform var(--motion-fast), filter var(--motion-fast);
     }
 
-    .main-play-btn:hover {
-      transform: scale(1.05);
-      filter: brightness(1.06);
-    }
-
-    .seek-row {
+    .seek-bar-row {
       width: 100%;
       display: flex;
       align-items: center;
@@ -1138,13 +822,13 @@
       font-variant-numeric: tabular-nums;
     }
 
-    .seek-slider {
+    .seek-input {
       flex: 1;
       accent-color: var(--accent-bright);
       cursor: pointer;
     }
 
-    .player-right-actions {
+    .right-ctrl-row {
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -1153,17 +837,15 @@
     }
 
     @media (max-width: 820px) {
-      .player-right-actions {
-        justify-content: space-between;
-      }
+      .right-ctrl-row { justify-content: space-between; }
     }
 
     /* Modals */
-    .modal-backdrop {
+    .modal-bg {
       position: fixed;
       inset: 0;
       z-index: 80;
-      background: rgba(3, 7, 5, 0.78);
+      background: rgba(3, 7, 5, 0.82);
       backdrop-filter: blur(10px);
       display: none;
       align-items: center;
@@ -1171,16 +853,14 @@
       padding: 16px;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
+    .modal-bg.open { display: flex; }
 
-    .modal-card {
+    .modal-panel {
       width: 100%;
       max-width: 560px;
       max-height: 88vh;
       overflow-y: auto;
-      background: #0e1914;
+      background: #0d1813;
       border: 1px solid var(--border-strong);
       border-radius: var(--radius-xl);
       padding: 20px;
@@ -1190,14 +870,14 @@
       gap: 14px;
     }
 
-    .modal-head {
+    .modal-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
     }
 
-    .modal-close-btn {
+    .modal-close {
       background: rgba(255, 255, 255, 0.08);
       color: var(--text-primary);
       border: none;
@@ -1205,11 +885,10 @@
       height: 34px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 0.95rem;
     }
 
-    /* Toast Notification */
-    .toast-container {
+    /* Toast */
+    .toast-stack {
       position: fixed;
       top: 84px;
       right: 18px;
@@ -1220,24 +899,18 @@
       max-width: 340px;
     }
 
-    .toast-item {
-      background: rgba(13, 25, 19, 0.94);
+    .toast-card {
+      background: rgba(13, 25, 19, 0.96);
       border: 1px solid var(--border-strong);
       color: var(--text-primary);
       padding: 10px 14px;
       border-radius: var(--radius-md);
       font-size: 0.82rem;
       font-weight: 600;
-      box-shadow: var(--shadow-glass);
-      animation: toastSlideIn var(--motion-smooth);
+      box-shadow: var(--shadow-main);
     }
 
-    @keyframes toastSlideIn {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .empty-state-box {
+    .empty-msg {
       padding: 28px 18px;
       text-align: center;
       border: 1px dashed var(--border-subtle);
@@ -1248,524 +921,325 @@
   </style>
 </head>
 <body>
-  <div class="banner-backdrop" id="bannerBackdrop">
-    <img id="bannerBackdropImg" class="banner-backdrop-img" alt="Banner Pribadi BimSakSin Spotify" />
-  </div>
-  <div class="banner-glass-overlay" id="bannerGlassOverlay"></div>
-
-  <div class="toast-container" id="toastContainer"></div>
+  <div class="toast-stack" id="toastStack"></div>
 
   <div class="app-shell">
-    <!-- Top Header -->
-    <header class="top-header">
-      <div class="brand-group">
-        <div class="logo-3d-stage" title="BimSakSin Spotify 3D HD Emblem">
-          <div class="logo-3d-aura"></div>
-          <div class="logo-3d-emblem">
-            <svg class="logo-3d-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo 3D HD BimSakSin Spotify">
+    <!-- Header -->
+    <header class="top-bar">
+      <div class="brand-block">
+        <div class="logo-3d-wrap" title="BimSakSin Spotify">
+          <div class="logo-3d-glow"></div>
+          <div class="logo-3d-inner">
+            <svg class="logo-3d-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo 3D BimSakSin Spotify">
               <defs>
-                <radialGradient id="slimeSphereGrad" cx="35%" cy="25%" r="72%">
+                <radialGradient id="spSphere" cx="35%" cy="25%" r="72%">
                   <stop offset="0%" stop-color="#6ef79e" />
                   <stop offset="48%" stop-color="#22c55e" />
                   <stop offset="100%" stop-color="#0f7634" />
                 </radialGradient>
-                <linearGradient id="slimeWaveDark" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="spWave" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#242726" />
                   <stop offset="65%" stop-color="#121514" />
                   <stop offset="100%" stop-color="#060807" />
                 </linearGradient>
-                <filter id="hdBevelShadow" x="-15%" y="-15%" width="130%" height="135%">
+                <filter id="spShadow" x="-15%" y="-15%" width="130%" height="135%">
                   <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#021409" flood-opacity="0.7" />
                 </filter>
               </defs>
-              <circle cx="60" cy="60" r="44" fill="url(#slimeSphereGrad)" filter="url(#hdBevelShadow)" />
+              <circle cx="60" cy="60" r="44" fill="url(#spSphere)" filter="url(#spShadow)" />
               <path
                 d="M16 56 C16 30, 36 15, 60 15 C84 15, 104 30, 104 56 C100 47, 94 42, 88 45 C82 48, 83 60, 77 61 C71 62, 70 43, 62 44 C54 45, 55 68, 48 69 C41 70, 40 41, 31 43 C23 45, 20 52, 16 56 Z"
                 fill="#4ade80"
                 opacity="0.65"
               />
               <path
-                d="M16 58 C18 32, 37 16, 60 16 C83 16, 102 32, 104 58 C100 50, 95 45, 90 48 C85 51, 86 63, 80 64 C74 65, 72 45, 64 46 C56 47, 57 72, 50 73 C43 74, 42 43, 33 45 C25 47, 21 54, 16 58 Z"
-                fill="none"
-                stroke="#07150c"
-                stroke-width="2.4"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
                 d="M31 46 C49 41, 73 42, 91 51 C94 53, 93 59, 89 59 C73 52, 50 51, 33 56 C29 57, 27 48, 31 46 Z"
-                fill="url(#slimeWaveDark)"
+                fill="url(#spWave)"
                 stroke="#050706"
                 stroke-width="2.2"
               />
               <path
                 d="M35 61 C50 57, 70 58, 85 65 C88 67, 87 72, 83 72 C69 66, 51 66, 37 70 C33 71, 31 62, 35 61 Z"
-                fill="url(#slimeWaveDark)"
+                fill="url(#spWave)"
                 stroke="#050706"
                 stroke-width="2.2"
               />
               <path
                 d="M38 75 C51 72, 67 73, 80 78 C83 79, 82 84, 78 84 C67 79, 52 79, 40 82 C36 83, 34 76, 38 75 Z"
-                fill="url(#slimeWaveDark)"
+                fill="url(#spWave)"
                 stroke="#050706"
                 stroke-width="2.2"
-              />
-              <path
-                d="M42 82 L42 103 C42 106, 38 106, 38 103 L38 82 Z"
-                fill="url(#slimeWaveDark)"
-                stroke="#050706"
-                stroke-width="1.8"
-              />
-              <path
-                d="M61 81 L61 107 C61 110, 57 110, 57 107 L57 81 Z"
-                fill="url(#slimeWaveDark)"
-                stroke="#050706"
-                stroke-width="1.8"
-              />
-              <path
-                d="M76 83 L76 99 C76 102, 72 102, 72 99 L72 83 Z"
-                fill="url(#slimeWaveDark)"
-                stroke="#050706"
-                stroke-width="1.8"
               />
               <ellipse cx="43" cy="28" rx="11" ry="5" transform="rotate(-18 43 28)" fill="#dcfce7" opacity="0.55" />
             </svg>
           </div>
         </div>
-        <div class="brand-copy">
+        <div>
           <div class="brand-title">BimSakSin Spotify</div>
-          <div class="brand-subtitle">Unggah Banner pribadi kamu dan tampilan kaca transfaran</div>
+          <div class="brand-sub">Pemutar Musik Real-Time • Spotify &amp; Katalog Audio</div>
         </div>
       </div>
 
-      <!-- Interactive Search Form -->
-      <form class="search-bar-form" id="topSearchForm" role="search">
-        <span class="search-icon" aria-hidden="true">🔍</span>
+      <!-- Search Form -->
+      <form class="search-form" id="searchForm" role="search">
+        <span aria-hidden="true">🔍</span>
         <input
           type="search"
-          id="topSearchInput"
+          id="searchInput"
           class="search-input"
-          placeholder="Ketik judul lagu, artis, YouTube, atau TikTok..."
+          placeholder="Ketik judul lagu atau nama artis..."
           autocomplete="off"
         />
-        <button type="button" class="search-clear-btn" id="searchClearBtn" title="Hapus pencarian" aria-label="Hapus pencarian">✕</button>
-        <button type="submit" class="search-submit-btn" id="searchSubmitBtn">
-          <span>Mencari</span>
+        <button type="button" class="search-clear-btn" id="searchClearBtn" title="Bersihkan" aria-label="Bersihkan">✕</button>
+        <button type="submit" class="search-btn" id="searchSubmitBtn">
+          <span class="btn-spinner" id="searchBtnSpinner"></span>
+          <span id="searchBtnLabel">Mencari..</span>
         </button>
       </form>
 
-      <div class="header-actions">
-        <button type="button" class="pill-btn accent" id="openApiHubBtn">⚙ Hub API</button>
-      </div>
+      <button type="button" class="pill-btn accent" id="openApiModalBtn">⚙ API Spotify</button>
     </header>
 
-    <!-- Live Search & API Telemetry Status Strip -->
-    <div class="search-status-bar" id="searchStatusBar">
-      <div class="search-status-left">
-        <span class="search-spinner" id="searchSpinner"></span>
-        <span id="searchStatusText">Siap mencari lagu real-time via Spotify, YouTube, TikTok, iTunes &amp; Audius</span>
+    <!-- Organized API Status Strip -->
+    <div class="api-bar" id="apiBar">
+      <div class="api-status-text" id="apiStatusLabel">
+        Siap mencari musik • Ketik lalu klik Mencari.. untuk memuat hasil
       </div>
-      <div class="api-pills-mini" id="apiStatusPills">
-        <span class="api-chip">Spotify API</span>
-        <span class="api-chip">YouTube API</span>
-        <span class="api-chip">TikTok API</span>
-        <span class="api-chip">iTunes API</span>
-        <span class="api-chip">Audius API</span>
-        <span class="api-chip">API Menit</span>
+      <div class="api-group-pills">
+        <span class="api-pill muted" id="spotifyBadge">Spotify Web API: Token Belum Diisi</span>
+        <span class="api-pill" id="itunesBadge">iTunes Catalog API: Aktif</span>
+        <span class="api-pill" id="audiusBadge">Audius Stream API: Aktif</span>
       </div>
     </div>
 
-    <!-- Personal Banner & Minute Telemetry Strip -->
-    <section class="banner-studio-panel" aria-label="Banner Pribadi dan API Menit">
-      <div class="panel-box">
-        <div class="panel-header-row">
-          <div>
-            <div class="panel-title">Banner Pribadi &amp; Kaca Transparan</div>
-            <div class="panel-caption">Unggah foto banner pribadi Anda dan atur transparansi kaca</div>
-          </div>
-          <div class="banner-controls-row">
-            <label class="mini-action-btn" for="bannerFileInput">+ Unggah Banner</label>
-            <input type="file" id="bannerFileInput" accept="image/*" multiple hidden />
-            <button type="button" class="mini-action-btn" id="clearAllBannersBtn">Hapus Semua</button>
-          </div>
-        </div>
-
-        <div class="range-control">
-          <span>Transparansi Kaca:</span>
-          <input type="range" id="glassOpacityRange" min="25" max="92" value="72" />
-          <span id="glassOpacityValue">72%</span>
-        </div>
-
-        <div class="banner-thumbs-list" id="bannerThumbsList"></div>
-      </div>
-
-      <div class="panel-box">
-        <div class="panel-header-row">
-          <div>
-            <div class="panel-title">API Menit &amp; Sinkronisasi Durasi</div>
-            <div class="panel-caption">Menyesuaikan menit aktif pada lagu yang sedang diputar</div>
-          </div>
-          <button type="button" class="mini-action-btn" id="randomMinuteJumpBtn">🎲 Acak Menit</button>
-        </div>
-
-        <div class="minute-readout-grid">
-          <div class="minute-stat-box">
-            <div class="minute-stat-label">Menit Berjalan</div>
-            <div class="minute-stat-value" id="statElapsedTime">00:00</div>
-          </div>
-          <div class="minute-stat-box">
-            <div class="minute-stat-label">Total Durasi</div>
-            <div class="minute-stat-value" id="statTotalDuration">00:00</div>
-          </div>
-          <div class="minute-stat-box">
-            <div class="minute-stat-label">Sisa Menit</div>
-            <div class="minute-stat-value" id="statRemainingTime">00:00</div>
-          </div>
-        </div>
-
-        <div class="minute-presets-row">
-          <button type="button" class="mini-action-btn" data-seek-pct="0">00:00 Awal</button>
-          <button type="button" class="mini-action-btn" data-seek-pct="0.25">25% Intro</button>
-          <button type="button" class="mini-action-btn" data-seek-pct="0.5">50% Drop</button>
-          <button type="button" class="mini-action-btn" data-seek-pct="0.75">75% Klimaks</button>
-          <form class="minute-jump-form" id="minuteJumpForm">
-            <input
-              type="text"
-              id="customMinuteInput"
-              class="minute-jump-input"
-              placeholder="MM:SS"
-              aria-label="Loncat ke menit MM:SS"
-            />
-            <button type="submit" class="mini-action-btn">Loncat</button>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <!-- Main Workspace -->
-    <div class="workspace-grid">
-      <!-- Sidebar -->
-      <aside class="sidebar-panel">
-        <nav class="nav-list" aria-label="Navigasi Utama">
-          <button type="button" class="nav-item-btn active" data-view="home">
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <aside class="sidebar">
+        <nav class="nav-list" aria-label="Menu Navigasi">
+          <button type="button" class="nav-btn active" data-view="home">
             <span>🏠 Beranda</span>
-            <span class="nav-count-badge" id="badgeHomeCount">0</span>
+            <span class="count-badge" id="countHome">0</span>
           </button>
-          <button type="button" class="nav-item-btn" data-view="search">
-            <span>🔎 Cari Lagu (Live API)</span>
-            <span class="nav-count-badge" id="badgeSearchCount">0</span>
+          <button type="button" class="nav-btn" data-view="search">
+            <span>🔎 Hasil Pencarian</span>
+            <span class="count-badge" id="countSearch">0</span>
           </button>
-          <button type="button" class="nav-item-btn" data-view="library">
-            <span>📁 Penyimpanan Spotify</span>
-            <span class="nav-count-badge" id="badgeLibraryCount">0</span>
+          <button type="button" class="nav-btn" data-view="library">
+            <span>📁 Penyimpanan Lagu</span>
+            <span class="count-badge" id="countLibrary">0</span>
           </button>
-          <button type="button" class="nav-item-btn" data-view="favorites">
-            <span>💚 Spotify Favorit</span>
-            <span class="nav-count-badge" id="badgeFavCount">0</span>
+          <button type="button" class="nav-btn" data-view="favorites">
+            <span>💚 Favorit Spotify</span>
+            <span class="count-badge" id="countFav">0</span>
           </button>
-          <button type="button" class="nav-item-btn" data-view="loved">
+          <button type="button" class="nav-btn" data-view="loved">
             <span>♥ Lagu Disukai</span>
-            <span class="nav-count-badge" id="badgeLovedCount">0</span>
+            <span class="count-badge" id="countLoved">0</span>
           </button>
-          <button type="button" class="nav-item-btn" data-view="starred">
+          <button type="button" class="nav-btn" data-view="starred">
             <span>★ Lagu Berbintang</span>
-            <span class="nav-count-badge" id="badgeStarCount">0</span>
+            <span class="count-badge" id="countStar">0</span>
           </button>
         </nav>
 
-        <div class="playlist-box">
-          <div class="panel-title">Playlist Kustom</div>
-          <form class="playlist-create-row" id="createPlaylistForm">
-            <input type="text" id="newPlaylistInput" class="playlist-input" placeholder="Nama playlist..." />
-            <button type="submit" class="mini-action-btn">+ Buat</button>
+        <div class="playlist-section">
+          <div class="section-label">Playlist Saya</div>
+          <form class="playlist-form" id="playlistForm">
+            <input type="text" id="playlistNameInput" class="text-input" placeholder="Nama playlist..." />
+            <button type="submit" class="mini-btn">+ Buat</button>
           </form>
-          <div class="nav-list" id="customPlaylistsList"></div>
+          <div class="nav-list" id="playlistList"></div>
         </div>
       </aside>
 
-      <!-- Main Feed -->
-      <main class="main-content-panel">
-        <div class="section-head">
-          <h1 class="section-title" id="mainSectionTitle">Koleksi &amp; Mixtape Aktif</h1>
-          <button type="button" class="pill-btn accent" id="toggleUploadFormBtn">+ Unggah / Tambah Lagu</button>
+      <main class="content-panel">
+        <div class="content-head">
+          <h1 class="content-title" id="mainHeading">Koleksi Musik Aktif</h1>
+          <button type="button" class="pill-btn accent" id="toggleUploadBtn">+ Tambah / Unggah Audio</button>
         </div>
 
-        <div class="filter-pills-row" id="sourceFilterPills">
-          <button type="button" class="filter-pill active" data-source="all">Semua Sumber</button>
-          <button type="button" class="filter-pill" data-source="YouTube">YouTube</button>
-          <button type="button" class="filter-pill" data-source="Spotify">Spotify</button>
-          <button type="button" class="filter-pill" data-source="TikTok">TikTok</button>
-          <button type="button" class="filter-pill" data-source="iTunes">iTunes</button>
-          <button type="button" class="filter-pill" data-source="Audius">Audius</button>
-          <button type="button" class="filter-pill" data-source="Unggahan">Unggahan</button>
+        <div class="filter-row" id="sourceFilterRow">
+          <button type="button" class="filter-chip active" data-source="all">Semua</button>
+          <button type="button" class="filter-chip" data-source="Spotify">Spotify</button>
+          <button type="button" class="filter-chip" data-source="iTunes">iTunes</button>
+          <button type="button" class="filter-chip" data-source="Audius">Audius</button>
+          <button type="button" class="filter-chip" data-source="Audio Lokal">Audio Lokal</button>
         </div>
 
-        <!-- Upload Song Form -->
-        <form class="upload-card" id="uploadSongForm" style="display: none;">
-          <div class="field-group">
-            <label class="field-label" for="uploadFileInput">File Audio (.mp3 / .wav / .ogg)</label>
-            <input type="file" id="uploadFileInput" class="field-input" accept="audio/*" />
+        <form class="upload-box" id="uploadForm" style="display: none;">
+          <div class="field-col">
+            <label class="field-lbl" for="audioFileInput">File Audio (.mp3 / .wav / .ogg)</label>
+            <input type="file" id="audioFileInput" class="field-ctrl" accept="audio/*" />
           </div>
-          <div class="field-group">
-            <label class="field-label" for="uploadUrlInput">Atau Link Audio / YouTube / TikTok</label>
-            <input type="url" id="uploadUrlInput" class="field-input" placeholder="https://..." />
+          <div class="field-col">
+            <label class="field-lbl" for="audioUrlInput">Atau Link Stream Audio (.mp3)</label>
+            <input type="url" id="audioUrlInput" class="field-ctrl" placeholder="https://..." />
           </div>
-          <div class="field-group">
-            <label class="field-label" for="uploadTitleInput">Judul Lagu</label>
-            <input type="text" id="uploadTitleInput" class="field-input" placeholder="Judul lagu..." />
+          <div class="field-col">
+            <label class="field-lbl" for="audioTitleInput">Judul Lagu</label>
+            <input type="text" id="audioTitleInput" class="field-ctrl" placeholder="Judul lagu..." />
           </div>
-          <div class="field-group">
-            <label class="field-label" for="uploadArtistInput">Artis / Kreator</label>
-            <input type="text" id="uploadArtistInput" class="field-input" placeholder="Nama artis..." />
+          <div class="field-col">
+            <label class="field-lbl" for="audioArtistInput">Artis</label>
+            <input type="text" id="audioArtistInput" class="field-ctrl" placeholder="Nama artis..." />
           </div>
-          <div class="field-group">
-            <button type="submit" class="search-submit-btn">Simpan ke Penyimpanan</button>
+          <div class="field-col">
+            <button type="submit" class="search-btn">Simpan Lagu</button>
           </div>
         </form>
 
-        <!-- YouTube IFrame Dock -->
-        <div class="yt-player-dock" id="ytPlayerDock">
-          <div class="yt-player-bar">
-            <span id="ytDockTitle">YouTube Stream Aktif</span>
-            <button type="button" class="mini-action-btn" id="closeYtDockBtn">Sembunyikan Player</button>
-          </div>
-          <div class="yt-frame-box" id="ytFrameBox"></div>
-        </div>
-
-        <!-- Tracks Grid -->
         <div class="tracks-grid" id="tracksGrid"></div>
       </main>
     </div>
   </div>
 
-  <!-- Bottom Player Bar -->
-  <footer class="player-bar" aria-label="Pemutar Musik">
-    <div class="now-playing-info">
-      <img id="playerThumb" class="now-playing-thumb" src="" alt="Sampul Lagu" />
-      <div class="now-playing-meta">
-        <div class="now-playing-title" id="playerTitle">Belum ada lagu diputar</div>
-        <div class="now-playing-artist" id="playerArtist">Pilih lagu atau cari di kolom atas</div>
+  <!-- Bottom Player -->
+  <footer class="player-dock" aria-label="Pemutar Audio">
+    <div class="np-box">
+      <img id="npThumb" class="np-thumb" src="" alt="Sampul" />
+      <div class="np-meta">
+        <div class="np-title" id="npTitle">Belum ada lagu diputar</div>
+        <div class="np-artist" id="npArtist">Ketik judul lagu di atas lalu klik Mencari..</div>
       </div>
     </div>
 
-    <div class="player-center-controls">
-      <div class="transport-btns">
-        <button type="button" class="transport-btn" id="shuffleBtn" title="Acak Urutan" aria-label="Acak Urutan">⇄</button>
-        <button type="button" class="transport-btn" id="prevBtn" title="Lagu Sebelumnya" aria-label="Lagu Sebelumnya">⏮</button>
-        <button type="button" class="main-play-btn" id="mainPlayBtn" title="Putar / Jeda" aria-label="Putar / Jeda">▶</button>
-        <button type="button" class="transport-btn" id="nextBtn" title="Lagu Berikutnya" aria-label="Lagu Berikutnya">⏭</button>
-        <button type="button" class="transport-btn" id="repeatBtn" title="Ulangi Lagu" aria-label="Ulangi Lagu">↻</button>
+    <div class="transport-col">
+      <div class="transport-row">
+        <button type="button" class="ctrl-btn" id="shuffleBtn" title="Acak">⇄</button>
+        <button type="button" class="ctrl-btn" id="prevBtn" title="Sebelumnya">⏮</button>
+        <button type="button" class="main-play-circle" id="playPauseBtn" title="Putar / Jeda">▶</button>
+        <button type="button" class="ctrl-btn" id="nextBtn" title="Berikutnya">⏭</button>
+        <button type="button" class="ctrl-btn" id="repeatBtn" title="Ulangi">↻</button>
       </div>
-      <div class="seek-row">
-        <span id="currentTimeLabel">00:00</span>
-        <input type="range" id="seekSlider" class="seek-slider" min="0" max="100" value="0" step="0.1" aria-label="Posisi Durasi Lagu" />
-        <span id="totalTimeLabel">00:00</span>
+      <div class="seek-bar-row">
+        <span id="timeNow">00:00</span>
+        <input type="range" id="seekBar" class="seek-input" min="0" max="100" value="0" step="0.1" aria-label="Posisi lagu" />
+        <span id="timeTotal">00:00</span>
       </div>
     </div>
 
-    <div class="player-right-actions">
-      <button type="button" class="icon-action-btn" id="playerProfileBtn" title="Profil Lagu">ℹ Profil</button>
-      <button type="button" class="icon-action-btn" id="playerFavBtn" title="Spotify Favorit">💚</button>
-      <button type="button" class="icon-action-btn" id="playerLoveBtn" title="Love">♥</button>
-      <button type="button" class="icon-action-btn" id="playerStarBtn" title="Bintangin">★</button>
-      <button type="button" class="icon-action-btn" id="playerDownloadBtn" title="Unduh">⬇</button>
-      <input type="range" id="volumeSlider" min="0" max="1" step="0.02" value="0.85" style="width: 78px; accent-color: var(--accent-bright);" aria-label="Volume" />
+    <div class="right-ctrl-row">
+      <button type="button" class="icon-btn" id="npProfileBtn" title="Profil Lagu">ℹ Profil</button>
+      <button type="button" class="icon-btn" id="npFavBtn" title="Favorit Spotify">💚</button>
+      <button type="button" class="icon-btn" id="npLoveBtn" title="Disukai">♥</button>
+      <button type="button" class="icon-btn" id="npStarBtn" title="Berbintang">★</button>
+      <button type="button" class="icon-btn" id="npDownloadBtn" title="Unduh">⬇</button>
+      <input type="range" id="volSlider" min="0" max="1" step="0.02" value="0.85" style="width: 78px; accent-color: var(--accent-bright);" aria-label="Volume" />
     </div>
   </footer>
 
   <!-- Song Profile Modal -->
-  <div class="modal-backdrop" id="songProfileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h2 class="panel-title" id="profileModalTitle">Profil Lagu</h2>
-        <button type="button" class="modal-close-btn" id="closeProfileModalBtn" aria-label="Tutup">✕</button>
+  <div class="modal-bg" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileTitle">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <h2 class="section-label" id="profileTitle">Profil Lagu</h2>
+        <button type="button" class="modal-close" id="closeProfileBtn" aria-label="Tutup">✕</button>
       </div>
-      <div id="songProfileBody" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.86rem;"></div>
+      <div id="profileBody" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.86rem;"></div>
     </div>
   </div>
 
-  <!-- API Hub Modal -->
-  <div class="modal-backdrop" id="apiHubModal" role="dialog" aria-modal="true" aria-labelledby="apiHubTitle">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h2 class="panel-title" id="apiHubTitle">Hub API Musik &amp; Sinkronisasi</h2>
-        <button type="button" class="modal-close-btn" id="closeApiHubBtn" aria-label="Tutup">✕</button>
+  <!-- Spotify API Modal -->
+  <div class="modal-bg" id="apiModal" role="dialog" aria-modal="true" aria-labelledby="apiModalTitle">
+    <div class="modal-panel">
+      <div class="modal-top">
+        <h2 class="section-label" id="apiModalTitle">Konfigurasi Spotify Web API</h2>
+        <button type="button" class="modal-close" id="closeApiModalBtn" aria-label="Tutup">✕</button>
       </div>
-      <p class="panel-caption">
-        Kelola kredensial opsional untuk Spotify Web API &amp; YouTube Data API v3. iTunes Search API, Audius API, TikTok Sounds, YouTube IFrame, dan API Menit sudah aktif otomatis.
+      <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
+        Masukkan OAuth Bearer Token dari Spotify Developer Dashboard untuk menarik hasil langsung dari endpoint resmi <code>api.spotify.com/v1/search</code>. Katalog audio gratis (iTunes &amp; Audius) tetap berjalan otomatis tanpa biaya.
       </p>
-      <div class="field-group">
-        <label class="field-label" for="spotifyTokenInput">Spotify Bearer Token (Opsional)</label>
-        <input type="password" id="spotifyTokenInput" class="field-input" placeholder="Tempel Spotify Access Token..." />
+      <div class="field-col">
+        <label class="field-lbl" for="spotifyBearerInput">Spotify OAuth Bearer Token</label>
+        <input type="password" id="spotifyBearerInput" class="field-ctrl" placeholder="BQA..." />
       </div>
-      <div class="field-group">
-        <label class="field-label" for="youtubeApiKeyInput">YouTube Data API v3 Key (Opsional)</label>
-        <input type="password" id="youtubeApiKeyInput" class="field-input" placeholder="AIza..." />
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <button type="button" class="search-btn" id="saveSpotifyTokenBtn">Simpan Token Spotify</button>
+        <button type="button" class="pill-btn" id="testSpotifyApiBtn">Tes Koneksi API</button>
       </div>
-      <div class="banner-controls-row">
-        <button type="button" class="search-submit-btn" id="saveApiKeysBtn">Simpan Konfigurasi API</button>
-        <button type="button" class="pill-btn" id="testApiConnectionBtn">Tes Koneksi API</button>
-      </div>
-      <div id="apiTestResultText" class="panel-caption"></div>
+      <div id="apiTestOutput" style="font-size: 0.8rem; color: var(--text-secondary);"></div>
     </div>
   </div>
 
-  <audio id="htmlAudioPlayer" preload="metadata"></audio>
+  <audio id="audioEngine" preload="metadata"></audio>
 
   <script>
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "bimsaksin_spotify_state_v4";
+      const STORAGE_KEY = "bimsaksin_spotify_clean_v1";
 
-      const INITIAL_MIXTAE_TRACKS = [
+      const STARTER_AUDIO_TRACKS = [
         {
-          id: "yt-mixtape-1",
-          title: "PELAN TAPI BIKIN GOYANG BLAY - MIXTAPE DJ BREAKBEAT",
-          artist: "MX FVNKY",
-          source: "YouTube",
-          youtubeId: "7p0r0k9c2aM",
-          durationSec: 2254,
-          cover: "https://i.ytimg.com/vi/7p0r0k9c2aM/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=7p0r0k9c2aM",
-          genre: "Breakbeat / Mixtape"
-        },
-        {
-          id: "yt-mixtape-2",
-          title: "DJ JEDAG JEDUG VIRAL TIKTOK FULL BASS TERBARU",
-          artist: "BimSakSin Mixtape",
-          source: "YouTube",
-          youtubeId: "jfKfPfyJRdk",
-          durationSec: 1840,
-          cover: "https://i.ytimg.com/vi/jfKfPfyJRdk/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=jfKfPfyJRdk",
-          genre: "Bass / Remix"
-        },
-        {
-          id: "yt-mixtape-3",
-          title: "LOFI CHILL NIGHT DRIVE MIXTAPE NONSTOP",
-          artist: "BimSakSin Chill Lab",
-          source: "YouTube",
-          youtubeId: "4xDzrJKXOOY",
-          durationSec: 2110,
-          cover: "https://i.ytimg.com/vi/4xDzrJKXOOY/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=4xDzrJKXOOY",
-          genre: "Lo-Fi / Night"
-        },
-        {
-          id: "yt-mixtape-4",
-          title: "SLOW REMIX SANTAI BIKIN TENANG FULL DURATION",
+          id: "audius-start-1",
+          title: "Midnight Emerald Groove",
           artist: "BimSakSin Studio",
-          source: "YouTube",
-          youtubeId: "5qap5aO4i9A",
-          durationSec: 1920,
-          cover: "https://i.ytimg.com/vi/5qap5aO4i9A/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=5qap5aO4i9A",
-          genre: "Slow Remix"
+          source: "Audius",
+          audioUrl: "https://discoveryprovider.audius.co/v1/tracks/4eY5K/stream?app_name=BimSakSinSpotify",
+          durationSec: 184,
+          cover: "https://discoveryprovider.audius.co/v1/tracks/4eY5K/artwork?dimensions=480x480&app_name=BimSakSinSpotify",
+          url: "https://audius.co",
+          genre: "Electronic"
         },
         {
-          id: "yt-mixtape-5",
-          title: "ELECTRO SYNTHWAVE DARK CLUB MIXTAPE",
-          artist: "BimSakSin Electronic",
-          source: "YouTube",
-          youtubeId: "MV_3Dpw-BRY",
-          durationSec: 1650,
-          cover: "https://i.ytimg.com/vi/MV_3Dpw-BRY/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=MV_3Dpw-BRY",
-          genre: "Synthwave"
+          id: "audius-start-2",
+          title: "Neon Rain Over Medan",
+          artist: "Siwiis Beats",
+          source: "Audius",
+          audioUrl: "https://discoveryprovider.audius.co/v1/tracks/D7m9a/stream?app_name=BimSakSinSpotify",
+          durationSec: 205,
+          cover: "https://discoveryprovider.audius.co/v1/tracks/D7m9a/artwork?dimensions=480x480&app_name=BimSakSinSpotify",
+          url: "https://audius.co",
+          genre: "Lo-Fi"
         },
         {
-          id: "yt-mixtape-6",
-          title: "ACOUSTIC GUITAR RAIN AMBIENT SESSION",
-          artist: "BimSakSin Acoustic",
-          source: "YouTube",
-          youtubeId: "DWcJFNfaw9c",
-          durationSec: 1780,
-          cover: "https://i.ytimg.com/vi/DWcJFNfaw9c/hqdefault.jpg",
-          url: "https://www.youtube.com/watch?v=DWcJFNfaw9c",
-          genre: "Acoustic Ambient"
+          id: "audius-start-3",
+          title: "Sub-Bass Club Session",
+          artist: "BimSakSin Club",
+          source: "Audius",
+          audioUrl: "https://discoveryprovider.audius.co/v1/tracks/9kL2p/stream?app_name=BimSakSinSpotify",
+          durationSec: 192,
+          cover: "https://discoveryprovider.audius.co/v1/tracks/9kL2p/artwork?dimensions=480x480&app_name=BimSakSinSpotify",
+          url: "https://audius.co",
+          genre: "House"
         }
       ];
 
-      const DUMMY_PURGE_IDS = new Set([
-        "dummy-rhodes-1",
-        "dummy-subbass-2",
-        "dummy-glass-3"
-      ]);
-
-      const DUMMY_PURGE_TITLES = [
-        "midnight emerald rhodes",
-        "cyber skull sub-bass groove",
-        "glass horizon ambient keys"
-      ];
-
-      function isDummyTrack(track) {
-        if (!track) return false;
-        if (DUMMY_PURGE_IDS.has(track.id)) return true;
-        const t = String(track.title || "").toLowerCase();
-        return DUMMY_PURGE_TITLES.some((d) => t.includes(d));
-      }
-
       const defaultState = {
-        banners: [],
-        activeBannerIndex: 0,
-        glassOpacity: 72,
-        libraryTracks: [...INITIAL_MIXTAE_TRACKS],
+        libraryTracks: [...STARTER_AUDIO_TRACKS],
         searchResults: [],
         favorites: [],
         loved: [],
         starred: [],
-        playlists: [{ id: "pl-default", name: "Mixtape Utama", trackIds: ["yt-mixtape-1"] }],
+        playlists: [{ id: "pl-main", name: "Daftar Putar Utama", trackIds: ["audius-start-1"] }],
         activeView: "home",
         activePlaylistId: null,
-        activeSourceFilter: "all",
+        activeSource: "all",
         shuffle: false,
         repeatMode: "off",
         currentTrackId: null,
-        currentTimeSec: 0,
-        durationSec: 0,
         isPlaying: false,
         volume: 0.85,
-        apiConfig: {
-          spotifyToken: "",
-          youtubeKey: ""
-        }
+        spotifyToken: ""
       };
 
-      const memoryFallback = {};
-      function safeGetStorage(key) {
-        try {
-          return window.localStorage.getItem(key);
-        } catch (_) {
-          return memoryFallback[key] || null;
-        }
+      const memStore = {};
+      function readStore(k) {
+        try { return window.localStorage.getItem(k); } catch (_) { return memStore[k] || null; }
       }
-      function safeSetStorage(key, val) {
-        try {
-          window.localStorage.setItem(key, val);
-        } catch (_) {
-          memoryFallback[key] = val;
-        }
+      function writeStore(k, v) {
+        try { window.localStorage.setItem(k, v); } catch (_) { memStore[k] = v; }
       }
 
       function loadState() {
         try {
-          const raw = safeGetStorage(STORAGE_KEY);
+          const raw = readStore(STORAGE_KEY);
           if (!raw) return structuredClone(defaultState);
           const parsed = JSON.parse(raw);
-          const merged = {
+          return {
             ...structuredClone(defaultState),
-            ...parsed,
-            apiConfig: {
-              ...defaultState.apiConfig,
-              ...(parsed.apiConfig || {})
-            }
+            ...parsed
           };
-          merged.libraryTracks = (merged.libraryTracks || []).filter((tr) => !isDummyTrack(tr));
-          if (merged.libraryTracks.length === 0) {
-            merged.libraryTracks = [...INITIAL_MIXTAE_TRACKS];
-          }
-          return merged;
         } catch (_) {
           return structuredClone(defaultState);
         }
@@ -1774,351 +1248,203 @@
       let state = loadState();
 
       function saveState() {
-        safeSetStorage(STORAGE_KEY, JSON.stringify(state));
-        updateBadges();
+        writeStore(STORAGE_KEY, JSON.stringify(state));
+        updateCounts();
+        updateApiBadges();
       }
 
-      function showToast(message) {
-        const container = document.getElementById("toastContainer");
-        if (!container) return;
-        const item = document.createElement("div");
-        item.className = "toast-item";
-        item.textContent = message;
-        container.appendChild(item);
+      function notify(msg) {
+        const stack = document.getElementById("toastStack");
+        if (!stack) return;
+        const card = document.createElement("div");
+        card.className = "toast-card";
+        card.textContent = msg;
+        stack.appendChild(card);
         setTimeout(() => {
-          item.style.opacity = "0";
-          item.style.transform = "translateY(-6px)";
-          setTimeout(() => item.remove(), 220);
-        }, 2800);
+          card.style.opacity = "0";
+          setTimeout(() => card.remove(), 220);
+        }, 2600);
       }
 
-      function formatTime(sec) {
-        const total = Math.max(0, Math.floor(Number(sec) || 0));
-        const hrs = Math.floor(total / 3600);
-        const mins = Math.floor((total % 3600) / 60);
-        const secs = total % 60;
-        if (hrs > 0) {
-          return `${String(hrs).padStart(2, "0")}:${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
-        }
-        return `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+      function fmtSec(sec) {
+        const s = Math.max(0, Math.floor(Number(sec) || 0));
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
       }
 
-      function parseMinuteString(str) {
-        if (!str) return null;
-        const clean = String(str).trim();
-        if (clean.includes(":")) {
-          const parts = clean.split(":").map(Number);
-          if (parts.some((n) => Number.isNaN(n) || n < 0)) return null;
-          if (parts.length === 2) return parts[0] * 60 + parts[1];
-          if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-          return null;
-        }
-        const num = Number(clean);
-        if (Number.isNaN(num) || num < 0) return null;
-        return Math.floor(num * 60);
+      function esc(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
       }
 
-      function extractYoutubeId(urlOrId) {
-        if (!urlOrId) return null;
-        const s = String(urlOrId).trim();
-        if (/^[a-zA-Z0-9_-]{11}$/.test(s)) return s;
-        const patterns = [
-          /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})/
-        ];
-        for (const re of patterns) {
-          const m = s.match(re);
-          if (m && m[1]) return m[1];
-        }
-        return null;
-      }
-
-      /* Banner & Glassmorphism Management */
-      function applyBannerState() {
-        const imgEl = document.getElementById("bannerBackdropImg");
-        const overlayEl = document.getElementById("bannerGlassOverlay");
-        const rangeEl = document.getElementById("glassOpacityRange");
-        const valEl = document.getElementById("glassOpacityValue");
-        const thumbsEl = document.getElementById("bannerThumbsList");
-
-        const opacityVal = Math.min(92, Math.max(25, Number(state.glassOpacity) || 72));
-        document.documentElement.style.setProperty("--glass-opacity", (opacityVal / 100).toFixed(2));
-        if (rangeEl) rangeEl.value = opacityVal;
-        if (valEl) valEl.textContent = `${opacityVal}%`;
-        if (overlayEl) overlayEl.style.background = `rgba(6, 11, 9, ${(opacityVal / 100).toFixed(2)})`;
-
-        if (state.banners.length > 0) {
-          const safeIdx = Math.min(Math.max(0, state.activeBannerIndex), state.banners.length - 1);
-          state.activeBannerIndex = safeIdx;
-          if (imgEl) {
-            imgEl.src = state.banners[safeIdx].dataUrl;
-            imgEl.classList.add("active");
-          }
-        } else if (imgEl) {
-          imgEl.removeAttribute("src");
-          imgEl.classList.remove("active");
-        }
-
-        if (!thumbsEl) return;
-        thumbsEl.innerHTML = "";
-        if (state.banners.length === 0) {
-          const empty = document.createElement("div");
-          empty.className = "panel-caption";
-          empty.textContent = "Belum ada banner pribadi diunggah.";
-          thumbsEl.appendChild(empty);
-          return;
-        }
-
-        state.banners.forEach((b, idx) => {
-          const card = document.createElement("div");
-          card.className = `banner-thumb-card${idx === state.activeBannerIndex ? " active" : ""}`;
-          card.title = b.name || `Banner ${idx + 1}`;
-
-          const img = document.createElement("img");
-          img.src = b.dataUrl;
-          img.alt = b.name || `Banner ${idx + 1}`;
-          img.addEventListener("click", () => {
-            state.activeBannerIndex = idx;
-            saveState();
-            applyBannerState();
-          });
-
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "banner-del-btn";
-          delBtn.textContent = "✕";
-          delBtn.title = "Hapus banner";
-          delBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            state.banners.splice(idx, 1);
-            if (state.activeBannerIndex >= state.banners.length) {
-              state.activeBannerIndex = Math.max(0, state.banners.length - 1);
-            }
-            saveState();
-            applyBannerState();
-            showToast("Banner pribadi dihapus.");
-          });
-
-          card.appendChild(img);
-          card.appendChild(delBtn);
-          thumbsEl.appendChild(card);
-        });
-      }
-
-      /* Minute & Time Sync Engine */
-      function updateMinuteTelemetry() {
-        const dur = Math.max(0, Number(state.durationSec) || 0);
-        const cur = Math.min(dur || Infinity, Math.max(0, Number(state.currentTimeSec) || 0));
-        const rem = Math.max(0, dur - cur);
-
-        const elElapsed = document.getElementById("statElapsedTime");
-        const elTotal = document.getElementById("statTotalDuration");
-        const elRem = document.getElementById("statRemainingTime");
-        const curLabel = document.getElementById("currentTimeLabel");
-        const totLabel = document.getElementById("totalTimeLabel");
-        const slider = document.getElementById("seekSlider");
-
-        if (elElapsed) elElapsed.textContent = formatTime(cur);
-        if (elTotal) elTotal.textContent = formatTime(dur);
-        if (elRem) elRem.textContent = formatTime(rem);
-        if (curLabel) curLabel.textContent = formatTime(cur);
-        if (totLabel) totLabel.textContent = formatTime(dur);
-
-        if (slider) {
-          slider.max = dur > 0 ? dur : 100;
-          slider.value = dur > 0 ? cur : 0;
+      function updateApiBadges() {
+        const spBadge = document.getElementById("spotifyBadge");
+        const hasToken = Boolean((state.spotifyToken || "").trim());
+        if (spBadge) {
+          spBadge.textContent = hasToken ? "Spotify Web API: Terhubung" : "Spotify Web API: Token Belum Diisi";
+          spBadge.classList.toggle("muted", !hasToken);
         }
       }
 
-      const audioEl = document.getElementById("htmlAudioPlayer");
-      audioEl.volume = state.volume;
+      /* Audio Player Engine */
+      const audio = document.getElementById("audioEngine");
+      audio.volume = state.volume;
 
-      function getAllKnownTracks() {
+      function allTracks() {
         const map = new Map();
-        [...state.libraryTracks, ...state.searchResults].forEach((tr) => {
-          if (tr && tr.id && !isDummyTrack(tr)) {
-            map.set(tr.id, tr);
-          }
+        [...state.libraryTracks, ...state.searchResults].forEach((t) => {
+          if (t && t.id) map.set(t.id, t);
         });
         return Array.from(map.values());
       }
 
-      function findTrackById(id) {
-        return getAllKnownTracks().find((t) => t.id === id) || null;
+      function getTrack(id) {
+        return allTracks().find((t) => t.id === id) || null;
       }
 
-      function seekToSeconds(targetSec) {
-        const dur = Number(state.durationSec) || Number(audioEl.duration) || 0;
-        const clamped = dur > 0 ? Math.min(Math.max(0, targetSec), Math.max(0, dur - 1)) : Math.max(0, targetSec);
-        state.currentTimeSec = clamped;
-
-        if (!audioEl.paused || audioEl.src) {
-          try {
-            if (Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
-              audioEl.currentTime = Math.min(clamped, audioEl.duration - 0.5);
-            }
-          } catch (_) {}
+      function playSong(track) {
+        if (!track) return;
+        if (!track.audioUrl) {
+          notify("Lagu ini tidak memiliki URL audio stream yang dapat diputar langsung.");
+          return;
         }
-
-        const ytDock = document.getElementById("ytPlayerDock");
-        const iframe = ytDock ? ytDock.querySelector("iframe") : null;
-        if (iframe && iframe.contentWindow) {
-          try {
-            iframe.contentWindow.postMessage(
-              JSON.stringify({ event: "command", func: "seekTo", args: [Math.floor(clamped), true] }),
-              "*"
-            );
-          } catch (_) {}
-        }
-
-        updateMinuteTelemetry();
-      }
-
-      function playTrack(track, startSeconds = 0) {
-        if (!track || isDummyTrack(track)) return;
         state.currentTrackId = track.id;
-        state.durationSec = Number(track.durationSec) || 180;
-        state.currentTimeSec = Math.max(0, Number(startSeconds) || 0);
         state.isPlaying = true;
 
-        const thumb = document.getElementById("playerThumb");
-        const title = document.getElementById("playerTitle");
-        const artist = document.getElementById("playerArtist");
-        const mainPlayBtn = document.getElementById("mainPlayBtn");
-        const ytDock = document.getElementById("ytPlayerDock");
-        const ytFrameBox = document.getElementById("ytFrameBox");
-        const ytDockTitle = document.getElementById("ytDockTitle");
+        const thumb = document.getElementById("npThumb");
+        const title = document.getElementById("npTitle");
+        const artist = document.getElementById("npArtist");
+        const playBtn = document.getElementById("playPauseBtn");
 
         if (thumb) {
           thumb.src = track.cover || "";
-          thumb.alt = track.title || "Lagu";
+          thumb.alt = track.title;
         }
         if (title) title.textContent = track.title || "Tanpa Judul";
-        if (artist) artist.textContent = `${track.artist || "Artis"} • ${track.source || "Live API"}`;
-        if (mainPlayBtn) mainPlayBtn.textContent = "⏸";
+        if (artist) artist.textContent = `${track.artist || "Artis"} • ${track.source || "Audio"}`;
+        if (playBtn) playBtn.textContent = "⏸";
 
-        const ytId = track.youtubeId || extractYoutubeId(track.url);
-        if (ytId) {
-          audioEl.pause();
-          audioEl.removeAttribute("src");
-          if (ytDock && ytFrameBox && ytDockTitle) {
-            ytDock.classList.add("visible");
-            ytDockTitle.textContent = `YouTube Player: ${track.title}`;
-            const startParam = Math.floor(state.currentTimeSec);
-            ytFrameBox.innerHTML = `<iframe src="https://www.youtube.com/embed/${encodeURIComponent(ytId)}?autoplay=1&start=${startParam}&enablejsapi=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-          }
-        } else {
-          if (ytDock) ytDock.classList.remove("visible");
-          if (ytFrameBox) ytFrameBox.innerHTML = "";
-          if (track.audioUrl) {
-            audioEl.src = track.audioUrl;
-            audioEl.addEventListener(
-              "loadedmetadata",
-              () => {
-                if (Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
-                  state.durationSec = Math.floor(audioEl.duration);
-                  if (state.currentTimeSec > 0) {
-                    audioEl.currentTime = Math.min(state.currentTimeSec, audioEl.duration - 0.5);
-                  }
-                  updateMinuteTelemetry();
-                }
-              },
-              { once: true }
-            );
-            audioEl.play().catch(() => {});
-          }
-        }
+        audio.src = track.audioUrl;
+        audio.play().catch(() => {
+          notify("Klik tombol Putar kembali untuk memulai audio.");
+        });
 
-        updateMinuteTelemetry();
         saveState();
-        renderTracksGrid();
+        renderGrid();
+        syncPlayerButtons();
       }
 
-      function togglePlayPause() {
-        const current = findTrackById(state.currentTrackId);
-        if (!current) {
-          const first = state.libraryTracks[0];
-          if (first) playTrack(first, 0);
+      function togglePlay() {
+        const cur = getTrack(state.currentTrackId);
+        if (!cur) {
+          if (state.libraryTracks[0]) playSong(state.libraryTracks[0]);
           return;
         }
-        const mainPlayBtn = document.getElementById("mainPlayBtn");
-        if (state.isPlaying) {
+        const playBtn = document.getElementById("playPauseBtn");
+        if (audio.paused) {
+          audio.play().then(() => {
+            state.isPlaying = true;
+            if (playBtn) playBtn.textContent = "⏸";
+            renderGrid();
+          }).catch(() => {});
+        } else {
+          audio.pause();
           state.isPlaying = false;
-          audioEl.pause();
-          if (mainPlayBtn) mainPlayBtn.textContent = "▶";
-        } else {
-          state.isPlaying = true;
-          if (audioEl.src) {
-            audioEl.play().catch(() => {});
-          }
-          if (mainPlayBtn) mainPlayBtn.textContent = "⏸";
+          if (playBtn) playBtn.textContent = "▶";
+          renderGrid();
         }
-        renderTracksGrid();
       }
 
-      setInterval(() => {
-        if (!state.isPlaying) return;
-        const dur = Number(state.durationSec) || 0;
-        if (audioEl.src && !audioEl.paused && Number.isFinite(audioEl.currentTime)) {
-          state.currentTimeSec = audioEl.currentTime;
-          if (Number.isFinite(audioEl.duration) && audioEl.duration > 0) {
-            state.durationSec = Math.floor(audioEl.duration);
-          }
+      audio.addEventListener("timeupdate", () => {
+        const nowEl = document.getElementById("timeNow");
+        const totEl = document.getElementById("timeTotal");
+        const seek = document.getElementById("seekBar");
+        const cur = audio.currentTime || 0;
+        const dur = Number.isFinite(audio.duration) ? audio.duration : 0;
+        if (nowEl) nowEl.textContent = fmtSec(cur);
+        if (totEl) totEl.textContent = fmtSec(dur);
+        if (seek && dur > 0) {
+          seek.max = dur;
+          seek.value = cur;
+        }
+      });
+
+      audio.addEventListener("ended", () => {
+        if (state.repeatMode === "one") {
+          audio.currentTime = 0;
+          audio.play().catch(() => {});
         } else {
-          state.currentTimeSec += 1;
+          stepTrack(1);
         }
+      });
 
-        if (dur > 0 && state.currentTimeSec >= dur) {
-          if (state.repeatMode === "one") {
-            seekToSeconds(0);
-          } else {
-            playAdjacentTrack(1);
-          }
-          return;
-        }
-        updateMinuteTelemetry();
-      }, 1000);
-
-      function playAdjacentTrack(step) {
-        const list = getVisibleTracks();
+      function stepTrack(delta) {
+        const list = visibleTracks();
         if (list.length === 0) return;
         if (state.shuffle) {
-          const randIdx = Math.floor(Math.random() * list.length);
-          playTrack(list[randIdx], 0);
+          playSong(list[Math.floor(Math.random() * list.length)]);
           return;
         }
         const idx = list.findIndex((t) => t.id === state.currentTrackId);
-        const nextIdx = idx === -1 ? 0 : (idx + step + list.length) % list.length;
-        playTrack(list[nextIdx], 0);
+        const nextIdx = idx === -1 ? 0 : (idx + delta + list.length) % list.length;
+        playSong(list[nextIdx]);
       }
 
-      /* Live Multi-API Search Engine */
-      async function searchItunes(query) {
-        const url = `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&entity=song&limit=8`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("iTunes error");
-        const data = await res.json();
-        return (data.results || [])
+      /* Live Search APIs (Spotify Web API + iTunes + Audius) */
+      async function fetchSpotify(q) {
+        const token = (state.spotifyToken || "").trim();
+        if (!token) return [];
+        const endpoint = `https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=10`;
+        const res = await fetch(endpoint, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error(`Spotify HTTP ${res.status}`);
+        const json = await res.json();
+        const items = (json.tracks && json.tracks.items) || [];
+        return items.map((tr, i) => ({
+          id: `sp-${tr.id || i}-${Date.now()}`,
+          title: tr.name,
+          artist: (tr.artists || []).map((a) => a.name).join(", ") || "Spotify Artist",
+          source: "Spotify",
+          audioUrl: tr.preview_url || "",
+          durationSec: Math.max(15, Math.round((tr.duration_ms || 30000) / 1000)),
+          cover: (tr.album && tr.album.images && tr.album.images[0] && tr.album.images[0].url) || "",
+          url: (tr.external_urls && tr.external_urls.spotify) || "",
+          genre: (tr.album && tr.album.album_type) || "Spotify"
+        }));
+      }
+
+      async function fetchItunes(q) {
+        const endpoint = `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=10`;
+        const res = await fetch(endpoint);
+        if (!res.ok) throw new Error(`iTunes HTTP ${res.status}`);
+        const json = await res.json();
+        return (json.results || [])
           .filter((item) => item.trackName)
           .map((item, i) => ({
-            id: `itunes-${item.trackId || i}-${Date.now()}`,
+            id: `it-${item.trackId || i}-${Date.now()}`,
             title: item.trackName,
-            artist: item.artistName || "iTunes Artist",
+            artist: item.artistName || "Artist",
             source: "iTunes",
             audioUrl: item.previewUrl || "",
-            durationSec: Math.max(30, Math.round((item.trackTimeMillis || 30000) / 1000)),
+            durationSec: Math.max(15, Math.round((item.trackTimeMillis || 30000) / 1000)),
             cover: (item.artworkUrl100 || "").replace("100x100", "400x400"),
             url: item.trackViewUrl || "",
             genre: item.primaryGenreName || "Music"
           }));
       }
 
-      async function searchAudius(query) {
-        const url = `https://discoveryprovider.audius.co/v1/tracks/search?query=${encodeURIComponent(query)}&app_name=BimSakSinSpotify`;
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Audius error");
-        const data = await res.json();
-        return (data.data || []).slice(0, 6).map((tr, i) => ({
-          id: `audius-${tr.id || i}-${Date.now()}`,
+      async function fetchAudius(q) {
+        const endpoint = `https://discoveryprovider.audius.co/v1/tracks/search?query=${encodeURIComponent(q)}&app_name=BimSakSinSpotify`;
+        const res = await fetch(endpoint);
+        if (!res.ok) throw new Error(`Audius HTTP ${res.status}`);
+        const json = await res.json();
+        return (json.data || []).slice(0, 8).map((tr, i) => ({
+          id: `au-${tr.id || i}-${Date.now()}`,
           title: tr.title || "Audius Track",
           artist: (tr.user && (tr.user.name || tr.user.handle)) || "Audius Artist",
           source: "Audius",
@@ -2130,231 +1456,157 @@
         }));
       }
 
-      async function searchSpotifyOfficial(query) {
-        const token = (state.apiConfig && state.apiConfig.spotifyToken || "").trim();
-        if (!token) return [];
-        const url = `https://api.spotify.com/v1/search?q=${encodeURIComponent(query)}&type=track&limit=6`;
-        const res = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (!res.ok) return [];
-        const data = await res.json();
-        const items = (data.tracks && data.tracks.items) || [];
-        return items.map((tr, i) => ({
-          id: `spotify-${tr.id || i}-${Date.now()}`,
-          title: tr.name,
-          artist: (tr.artists || []).map((a) => a.name).join(", ") || "Spotify Artist",
-          source: "Spotify",
-          audioUrl: tr.preview_url || "",
-          durationSec: Math.max(15, Math.round((tr.duration_ms || 180000) / 1000)),
-          cover: (tr.album && tr.album.images && tr.album.images[0] && tr.album.images[0].url) || "",
-          url: (tr.external_urls && tr.external_urls.spotify) || "",
-          genre: (tr.album && tr.album.album_type) || "Spotify"
-        }));
-      }
-
-      async function searchYouTubeOfficial(query) {
-        const key = (state.apiConfig && state.apiConfig.youtubeKey || "").trim();
-        if (!key) return [];
-        const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoCategoryId=10&maxResults=6&q=${encodeURIComponent(query)}&key=${encodeURIComponent(key)}`;
-        const res = await fetch(url);
-        if (!res.ok) return [];
-        const data = await res.json();
-        return (data.items || []).map((it, i) => {
-          const vid = it.id && it.id.videoId ? it.id.videoId : "";
-          const sn = it.snippet || {};
-          return {
-            id: `yt-api-${vid || i}-${Date.now()}`,
-            title: sn.title || "YouTube Track",
-            artist: sn.channelTitle || "YouTube Music",
-            source: "YouTube",
-            youtubeId: vid,
-            durationSec: 210,
-            cover: (sn.thumbnails && (sn.thumbnails.high || sn.thumbnails.medium || sn.thumbnails.default)?.url) || "",
-            url: vid ? `https://www.youtube.com/watch?v=${vid}` : "",
-            genre: "YouTube"
-          };
-        });
-      }
-
-      async function executeLiveSearch(rawQuery) {
+      async function runSearch(rawQuery) {
         const q = String(rawQuery || "").trim();
-        const statusBar = document.getElementById("searchStatusBar");
-        const statusText = document.getElementById("searchStatusText");
         const clearBtn = document.getElementById("searchClearBtn");
+        const submitBtn = document.getElementById("searchSubmitBtn");
+        const btnLabel = document.getElementById("searchBtnLabel");
+        const statusLabel = document.getElementById("apiStatusLabel");
 
-        if (clearBtn) {
-          clearBtn.classList.toggle("visible", q.length > 0);
-        }
+        if (clearBtn) clearBtn.classList.toggle("visible", q.length > 0);
 
         if (!q) {
           state.searchResults = [];
-          if (statusBar) statusBar.classList.remove("searching");
-          if (statusText) {
-            statusText.textContent = "Siap mencari lagu real-time via Spotify, YouTube, TikTok, iTunes & Audius";
-          }
-          renderTracksGrid();
+          if (statusLabel) statusLabel.textContent = "Siap mencari musik • Ketik lalu klik Mencari.. untuk memuat hasil";
+          saveState();
+          renderGrid();
           return;
         }
 
         state.activeView = "search";
         state.activePlaylistId = null;
-        updateNavActiveState();
+        syncNav();
 
-        if (statusBar) statusBar.classList.add("searching");
-        if (statusText) statusText.textContent = `Mencari "${q}" di Spotify, YouTube, TikTok, iTunes & Audius...`;
+        if (submitBtn) submitBtn.classList.add("loading");
+        if (btnLabel) btnLabel.textContent = "Memuat...";
+        if (statusLabel) statusLabel.textContent = `Memuat hasil musik untuk "${q}"...`;
 
-        const localMatches = state.libraryTracks.filter(
-          (t) =>
-            !isDummyTrack(t) &&
-            (`${t.title} ${t.artist} ${t.source} ${t.genre || ""}`).toLowerCase().includes(q.toLowerCase())
+        const localHits = state.libraryTracks.filter((t) =>
+          (`${t.title} ${t.artist} ${t.genre || ""}`).toLowerCase().includes(q.toLowerCase())
         );
 
         const settled = await Promise.allSettled([
-          searchSpotifyOfficial(q),
-          searchYouTubeOfficial(q),
-          searchItunes(q),
-          searchAudius(q)
+          fetchSpotify(q),
+          fetchItunes(q),
+          fetchAudius(q)
         ]);
 
-        const remoteTracks = [];
-        settled.forEach((outcome) => {
-          if (outcome.status === "fulfilled" && Array.isArray(outcome.value)) {
-            remoteTracks.push(...outcome.value);
+        const apiHits = [];
+        settled.forEach((r) => {
+          if (r.status === "fulfilled" && Array.isArray(r.value)) {
+            apiHits.push(...r.value);
           }
         });
 
-        const tiktokMatches =
-          q.toLowerCase().includes("tiktok") || q.toLowerCase().includes("tiktok.com")
-            ? [
-                {
-                  id: `tiktok-sound-${Date.now()}`,
-                  title: `TikTok Sound Trend — ${q}`,
-                  artist: "TikTok Viral Audio",
-                  source: "TikTok",
-                  audioUrl: remoteTracks.find((r) => r.audioUrl)?.audioUrl || "",
-                  durationSec: 120,
-                  cover: remoteTracks.find((r) => r.cover)?.cover || "",
-                  url: q.startsWith("http") ? q : `https://www.tiktok.com/search?q=${encodeURIComponent(q)}`,
-                  genre: "TikTok Viral"
-                }
-              ]
-            : [];
+        state.searchResults = [...localHits, ...apiHits];
 
-        const combined = [...localMatches, ...remoteTracks, ...tiktokMatches].filter((t) => !isDummyTrack(t));
-        state.searchResults = combined;
-
-        if (statusBar) statusBar.classList.remove("searching");
-        if (statusText) {
-          statusText.textContent = `Selesai mencari "${q}" • ${combined.length} hasil ditemukan`;
+        if (submitBtn) submitBtn.classList.remove("loading");
+        if (btnLabel) btnLabel.textContent = "Mencari..";
+        if (statusLabel) {
+          statusLabel.textContent = `Ditemukan ${state.searchResults.length} musik untuk "${q}"`;
         }
 
         saveState();
-        renderTracksGrid();
+        renderGrid();
       }
 
-      /* Collections & Playlists */
-      function toggleIdInArray(arrName, id) {
-        const list = state[arrName] || [];
+      /* Collections & View Rendering */
+      function toggleCollection(field, id) {
+        const list = state[field] || [];
         const idx = list.indexOf(id);
-        if (idx === -1) {
-          list.push(id);
-        } else {
-          list.splice(idx, 1);
-        }
-        state[arrName] = list;
+        if (idx === -1) list.push(id);
+        else list.splice(idx, 1);
+        state[field] = list;
         saveState();
-        renderTracksGrid();
-        syncPlayerActionButtons();
+        renderGrid();
+        syncPlayerButtons();
       }
 
-      function getVisibleTracks() {
+      function visibleTracks() {
         let base = [];
-        if (state.activeView === "home") {
+        if (state.activeView === "home" || state.activeView === "library") {
           base = state.libraryTracks;
         } else if (state.activeView === "search") {
-          base = state.searchResults.length > 0 ? state.searchResults : state.libraryTracks;
-        } else if (state.activeView === "library") {
-          base = state.libraryTracks;
+          base = state.searchResults;
         } else if (state.activeView === "favorites") {
-          base = getAllKnownTracks().filter((t) => state.favorites.includes(t.id));
+          base = allTracks().filter((t) => state.favorites.includes(t.id));
         } else if (state.activeView === "loved") {
-          base = getAllKnownTracks().filter((t) => state.loved.includes(t.id));
+          base = allTracks().filter((t) => state.loved.includes(t.id));
         } else if (state.activeView === "starred") {
-          base = getAllKnownTracks().filter((t) => state.starred.includes(t.id));
+          base = allTracks().filter((t) => state.starred.includes(t.id));
         } else if (state.activeView === "playlist" && state.activePlaylistId) {
           const pl = state.playlists.find((p) => p.id === state.activePlaylistId);
           const ids = (pl && pl.trackIds) || [];
-          base = getAllKnownTracks().filter((t) => ids.includes(t.id));
+          base = allTracks().filter((t) => ids.includes(t.id));
         }
 
-        base = base.filter((t) => t && !isDummyTrack(t));
-        if (state.activeSourceFilter && state.activeSourceFilter !== "all") {
-          base = base.filter((t) => String(t.source || "").toLowerCase() === state.activeSourceFilter.toLowerCase());
+        if (state.activeSource && state.activeSource !== "all") {
+          base = base.filter((t) => String(t.source || "").toLowerCase() === state.activeSource.toLowerCase());
         }
         return base;
       }
 
-      function updateSectionTitle() {
-        const titleEl = document.getElementById("mainSectionTitle");
-        if (!titleEl) return;
-        const map = {
-          home: "Koleksi & Mixtape Aktif",
-          search: "Hasil Pencarian Live API",
-          library: "Penyimpanan Spotify",
-          favorites: "Spotify Favorit",
-          loved: "Lagu Disukai (Love)",
-          starred: "Lagu Berbintang (★)"
+      function syncHeading() {
+        const h = document.getElementById("mainHeading");
+        if (!h) return;
+        const titles = {
+          home: "Koleksi Musik Aktif",
+          search: "Hasil Pencarian Musik",
+          library: "Penyimpanan Lagu",
+          favorites: "Favorit Spotify",
+          loved: "Lagu Disukai",
+          starred: "Lagu Berbintang"
         };
         if (state.activeView === "playlist" && state.activePlaylistId) {
           const pl = state.playlists.find((p) => p.id === state.activePlaylistId);
-          titleEl.textContent = pl ? `Playlist: ${pl.name}` : "Playlist Kustom";
+          h.textContent = pl ? `Playlist: ${pl.name}` : "Playlist Saya";
           return;
         }
-        titleEl.textContent = map[state.activeView] || "BimSakSin Spotify";
+        h.textContent = titles[state.activeView] || "BimSakSin Spotify";
       }
 
-      function renderTracksGrid() {
-        updateSectionTitle();
+      function renderGrid() {
+        syncHeading();
         const grid = document.getElementById("tracksGrid");
         if (!grid) return;
-        const tracks = getVisibleTracks();
+        const list = visibleTracks();
         grid.innerHTML = "";
 
-        if (tracks.length === 0) {
+        if (list.length === 0) {
           const empty = document.createElement("div");
-          empty.className = "empty-state-box";
-          empty.textContent = "Belum ada lagu pada tampilan atau filter ini.";
+          empty.className = "empty-msg";
+          empty.textContent = state.activeView === "search"
+            ? "Tidak ada lagu yang cocok. Coba kata kunci lain lalu klik Mencari.."
+            : "Belum ada lagu pada daftar ini.";
           grid.appendChild(empty);
           return;
         }
 
-        tracks.forEach((tr) => {
+        list.forEach((tr) => {
           const card = document.createElement("article");
-          const isCurrent = state.currentTrackId === tr.id && state.isPlaying;
-          card.className = `track-card${isCurrent ? " playing" : ""}`;
+          const activePlay = state.currentTrackId === tr.id && state.isPlaying;
+          card.className = `track-card${activePlay ? " playing" : ""}`;
 
-          const coverWrap = document.createElement("div");
-          coverWrap.className = "track-cover-wrap";
-
+          const coverBox = document.createElement("div");
+          coverBox.className = "track-cover";
           if (tr.cover) {
             const img = document.createElement("img");
             img.src = tr.cover;
             img.alt = tr.title;
             img.loading = "lazy";
-            coverWrap.appendChild(img);
+            coverBox.appendChild(img);
           }
 
-          const srcTag = document.createElement("span");
-          srcTag.className = "track-source-tag";
-          srcTag.textContent = tr.source || "Live";
+          const badge = document.createElement("span");
+          badge.className = "track-badge";
+          badge.textContent = tr.source || "Audio";
 
-          const durTag = document.createElement("span");
-          durTag.className = "track-duration-tag";
-          durTag.textContent = formatTime(tr.durationSec);
+          const dur = document.createElement("span");
+          dur.className = "track-duration";
+          dur.textContent = fmtSec(tr.durationSec);
 
-          coverWrap.appendChild(srcTag);
-          coverWrap.appendChild(durTag);
+          coverBox.appendChild(badge);
+          coverBox.appendChild(dur);
 
           const titleEl = document.createElement("div");
           titleEl.className = "track-title";
@@ -2364,373 +1616,268 @@
           artistEl.className = "track-artist";
           artistEl.textContent = tr.artist || "Artis";
 
-          const actionsBar = document.createElement("div");
-          actionsBar.className = "track-actions-bar";
+          const actions = document.createElement("div");
+          actions.className = "track-actions";
 
           const playBtn = document.createElement("button");
           playBtn.type = "button";
-          playBtn.className = "play-track-btn";
-          playBtn.textContent = isCurrent ? "⏸ Jeda" : "▶ Putar";
+          playBtn.className = "play-btn";
+          playBtn.textContent = activePlay ? "⏸ Jeda" : "▶ Putar";
           playBtn.addEventListener("click", () => {
-            if (isCurrent) {
-              togglePlayPause();
-            } else {
-              playTrack(tr, 0);
-            }
+            if (activePlay) togglePlay();
+            else playSong(tr);
           });
 
-          const profileBtn = document.createElement("button");
-          profileBtn.type = "button";
-          profileBtn.className = "icon-action-btn";
-          profileBtn.textContent = "Profil";
-          profileBtn.addEventListener("click", () => openSongProfile(tr));
+          const profBtn = document.createElement("button");
+          profBtn.type = "button";
+          profBtn.className = "icon-btn";
+          profBtn.textContent = "Profil";
+          profBtn.addEventListener("click", () => openProfile(tr));
 
           const favBtn = document.createElement("button");
           const isFav = state.favorites.includes(tr.id);
           favBtn.type = "button";
-          favBtn.className = `icon-action-btn${isFav ? " saved-fav" : ""}`;
+          favBtn.className = `icon-btn${isFav ? " fav-active" : ""}`;
           favBtn.textContent = isFav ? "✓ Favorit" : "+ Favorit";
-          favBtn.addEventListener("click", () => toggleIdInArray("favorites", tr.id));
+          favBtn.addEventListener("click", () => toggleCollection("favorites", tr.id));
 
           const loveBtn = document.createElement("button");
           const isLoved = state.loved.includes(tr.id);
           loveBtn.type = "button";
-          loveBtn.className = `icon-action-btn${isLoved ? " loved" : ""}`;
+          loveBtn.className = `icon-btn${isLoved ? " loved" : ""}`;
           loveBtn.textContent = isLoved ? "♥" : "♡";
-          loveBtn.title = "Love";
-          loveBtn.addEventListener("click", () => toggleIdInArray("loved", tr.id));
+          loveBtn.addEventListener("click", () => toggleCollection("loved", tr.id));
 
           const starBtn = document.createElement("button");
-          const isStarred = state.starred.includes(tr.id);
+          const isStar = state.starred.includes(tr.id);
           starBtn.type = "button";
-          starBtn.className = `icon-action-btn${isStarred ? " starred" : ""}`;
-          starBtn.textContent = isStarred ? "★" : "☆";
-          starBtn.title = "Bintangin";
-          starBtn.addEventListener("click", () => toggleIdInArray("starred", tr.id));
+          starBtn.className = `icon-btn${isStar ? " starred" : ""}`;
+          starBtn.textContent = isStar ? "★" : "☆";
+          starBtn.addEventListener("click", () => toggleCollection("starred", tr.id));
 
           const dlBtn = document.createElement("button");
           dlBtn.type = "button";
-          dlBtn.className = "icon-action-btn";
+          dlBtn.className = "icon-btn";
           dlBtn.textContent = "⬇";
           dlBtn.title = "Unduh";
-          dlBtn.addEventListener("click", () => downloadTrack(tr));
+          dlBtn.addEventListener("click", () => downloadSong(tr));
 
-          actionsBar.appendChild(playBtn);
-          actionsBar.appendChild(profileBtn);
-          actionsBar.appendChild(favBtn);
-          actionsBar.appendChild(loveBtn);
-          actionsBar.appendChild(starBtn);
-          actionsBar.appendChild(dlBtn);
+          actions.appendChild(playBtn);
+          actions.appendChild(profBtn);
+          actions.appendChild(favBtn);
+          actions.appendChild(loveBtn);
+          actions.appendChild(starBtn);
+          actions.appendChild(dlBtn);
 
-          card.appendChild(coverWrap);
+          card.appendChild(coverBox);
           card.appendChild(titleEl);
           card.appendChild(artistEl);
-          card.appendChild(actionsBar);
+          card.appendChild(actions);
           grid.appendChild(card);
         });
       }
 
-      function downloadTrack(track) {
-        if (!track) return;
-        const targetUrl = track.audioUrl || track.url;
-        if (!targetUrl) {
-          showToast("Sumber audio langsung tidak tersedia untuk diunduh.");
+      function downloadSong(tr) {
+        if (!tr || !tr.audioUrl) {
+          notify("File audio langsung tidak tersedia untuk lagu ini.");
           return;
         }
         const a = document.createElement("a");
-        a.href = targetUrl;
+        a.href = tr.audioUrl;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
-        a.download = `${track.title || "lagu"}.mp3`;
+        a.download = `${tr.title || "lagu"}.mp3`;
         document.body.appendChild(a);
         a.click();
         a.remove();
-        showToast(`Mengunduh / membuka: ${track.title}`);
       }
 
-      function openSongProfile(track) {
-        if (!track) return;
-        const modal = document.getElementById("songProfileModal");
-        const body = document.getElementById("songProfileBody");
-        if (!modal || !body) return;
+      function openProfile(tr) {
+        const modal = document.getElementById("profileModal");
+        const body = document.getElementById("profileBody");
+        if (!modal || !body || !tr) return;
 
         body.innerHTML = `
-          <div><strong>Judul:</strong> ${escapeHtml(track.title)}</div>
-          <div><strong>Artis / Kreator:</strong> ${escapeHtml(track.artist || "-")}</div>
-          <div><strong>Sumber API:</strong> ${escapeHtml(track.source || "Live API")}</div>
-          <div><strong>Genre:</strong> ${escapeHtml(track.genre || "-")}</div>
-          <div><strong>Durasi Total:</strong> ${formatTime(track.durationSec)}</div>
+          <div><strong>Judul:</strong> ${esc(tr.title)}</div>
+          <div><strong>Artis:</strong> ${esc(tr.artist || "-")}</div>
+          <div><strong>Sumber:</strong> ${esc(tr.source || "Audio")}</div>
+          <div><strong>Genre:</strong> ${esc(tr.genre || "-")}</div>
+          <div><strong>Durasi:</strong> ${fmtSec(tr.durationSec)}</div>
           <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
-            <button type="button" class="play-track-btn" id="profilePlayNowBtn">▶ Putar Sekarang</button>
-            <button type="button" class="mini-action-btn" id="profileRandomMinBtn">🎲 Putar Menit Acak</button>
-            <button type="button" class="mini-action-btn" id="profileSaveLibBtn">+ Simpan ke Penyimpanan</button>
+            <button type="button" class="play-btn" id="profPlayNow">▶ Putar Sekarang</button>
+            <button type="button" class="mini-btn" id="profSaveLib">+ Simpan ke Penyimpanan</button>
           </div>
         `;
-
         modal.classList.add("open");
 
-        document.getElementById("profilePlayNowBtn").addEventListener("click", () => {
+        document.getElementById("profPlayNow").addEventListener("click", () => {
           modal.classList.remove("open");
-          playTrack(track, 0);
+          playSong(tr);
         });
 
-        document.getElementById("profileRandomMinBtn").addEventListener("click", () => {
-          modal.classList.remove("open");
-          const dur = Math.max(30, Number(track.durationSec) || 180);
-          const randSec = Math.floor(Math.random() * Math.max(10, dur - 15));
-          playTrack(track, randSec);
-        });
-
-        document.getElementById("profileSaveLibBtn").addEventListener("click", () => {
-          addTrackToLibrary(track);
-          showToast("UNGGAH SELESAI — Lagu masuk ke Penyimpanan Spotify.");
+        document.getElementById("profSaveLib").addEventListener("click", () => {
+          const exists = state.libraryTracks.some((x) => x.id === tr.id || (x.title === tr.title && x.artist === tr.artist));
+          if (!exists) {
+            state.libraryTracks.unshift(tr);
+            saveState();
+            renderGrid();
+          }
+          notify("Lagu disimpan ke Penyimpanan Lagu.");
         });
       }
 
-      function addTrackToLibrary(track) {
-        if (!track || isDummyTrack(track)) return;
-        const exists = state.libraryTracks.some((t) => t.id === track.id || (t.title === track.title && t.artist === track.artist));
-        if (!exists) {
-          state.libraryTracks.unshift({ ...track, source: track.source || "Unggahan" });
-          saveState();
-          renderTracksGrid();
-        }
-      }
-
-      function syncPlayerActionButtons() {
-        const tr = findTrackById(state.currentTrackId);
-        const favBtn = document.getElementById("playerFavBtn");
-        const loveBtn = document.getElementById("playerLoveBtn");
-        const starBtn = document.getElementById("playerStarBtn");
+      function syncPlayerButtons() {
+        const tr = getTrack(state.currentTrackId);
         if (!tr) return;
-        if (favBtn) favBtn.classList.toggle("saved-fav", state.favorites.includes(tr.id));
-        if (loveBtn) loveBtn.classList.toggle("loved", state.loved.includes(tr.id));
-        if (starBtn) starBtn.classList.toggle("starred", state.starred.includes(tr.id));
+        document.getElementById("npFavBtn").classList.toggle("fav-active", state.favorites.includes(tr.id));
+        document.getElementById("npLoveBtn").classList.toggle("loved", state.loved.includes(tr.id));
+        document.getElementById("npStarBtn").classList.toggle("starred", state.starred.includes(tr.id));
       }
 
-      function updateNavActiveState() {
-        document.querySelectorAll(".nav-item-btn[data-view]").forEach((btn) => {
+      function syncNav() {
+        document.querySelectorAll(".nav-btn[data-view]").forEach((btn) => {
           btn.classList.toggle("active", btn.getAttribute("data-view") === state.activeView);
         });
-        document.querySelectorAll("#customPlaylistsList .nav-item-btn").forEach((btn) => {
-          btn.classList.toggle("active", state.activeView === "playlist" && btn.dataset.playlistId === state.activePlaylistId);
+        document.querySelectorAll("#playlistList .nav-btn").forEach((btn) => {
+          btn.classList.toggle("active", state.activeView === "playlist" && btn.dataset.plId === state.activePlaylistId);
         });
       }
 
       function renderPlaylists() {
-        const listEl = document.getElementById("customPlaylistsList");
-        if (!listEl) return;
-        listEl.innerHTML = "";
+        const wrap = document.getElementById("playlistList");
+        if (!wrap) return;
+        wrap.innerHTML = "";
         (state.playlists || []).forEach((pl) => {
           const btn = document.createElement("button");
           btn.type = "button";
-          btn.className = `nav-item-btn${state.activeView === "playlist" && state.activePlaylistId === pl.id ? " active" : ""}`;
-          btn.dataset.playlistId = pl.id;
-          btn.innerHTML = `<span>🎵 ${escapeHtml(pl.name)}</span><span class="nav-count-badge">${(pl.trackIds || []).length}</span>`;
+          btn.className = `nav-btn${state.activeView === "playlist" && state.activePlaylistId === pl.id ? " active" : ""}`;
+          btn.dataset.plId = pl.id;
+          btn.innerHTML = `<span>🎵 ${esc(pl.name)}</span><span class="count-badge">${(pl.trackIds || []).length}</span>`;
           btn.addEventListener("click", () => {
             state.activeView = "playlist";
             state.activePlaylistId = pl.id;
-            updateNavActiveState();
-            renderTracksGrid();
+            syncNav();
+            renderGrid();
           });
-          listEl.appendChild(btn);
+          wrap.appendChild(btn);
         });
       }
 
-      function updateBadges() {
-        const setText = (id, val) => {
+      function updateCounts() {
+        const set = (id, v) => {
           const el = document.getElementById(id);
-          if (el) el.textContent = String(val);
+          if (el) el.textContent = String(v);
         };
-        setText("badgeHomeCount", state.libraryTracks.length);
-        setText("badgeSearchCount", state.searchResults.length);
-        setText("badgeLibraryCount", state.libraryTracks.length);
-        setText("badgeFavCount", state.favorites.length);
-        setText("badgeLovedCount", state.loved.length);
-        setText("badgeStarCount", state.starred.length);
+        set("countHome", state.libraryTracks.length);
+        set("countSearch", state.searchResults.length);
+        set("countLibrary", state.libraryTracks.length);
+        set("countFav", state.favorites.length);
+        set("countLoved", state.loved.length);
+        set("countStar", state.starred.length);
       }
 
-      function escapeHtml(str) {
-        return String(str || "")
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;");
-      }
-
-      /* Event Listeners */
-      document.getElementById("topSearchForm").addEventListener("submit", (e) => {
+      /* Listeners */
+      document.getElementById("searchForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        const input = document.getElementById("topSearchInput");
-        executeLiveSearch(input ? input.value : "");
+        runSearch(document.getElementById("searchInput").value);
       });
 
-      document.getElementById("topSearchInput").addEventListener("input", (e) => {
-        const val = e.target.value;
-        document.getElementById("searchClearBtn").classList.toggle("visible", val.length > 0);
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        document.getElementById("searchClearBtn").classList.toggle("visible", e.target.value.length > 0);
       });
 
       document.getElementById("searchClearBtn").addEventListener("click", () => {
-        const input = document.getElementById("topSearchInput");
-        if (input) input.value = "";
-        executeLiveSearch("");
+        document.getElementById("searchInput").value = "";
+        runSearch("");
       });
 
-      document.getElementById("bannerFileInput").addEventListener("change", (e) => {
-        const files = Array.from(e.target.files || []);
-        if (files.length === 0) return;
-        files.forEach((file) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            state.banners.push({
-              name: file.name,
-              dataUrl: String(reader.result || "")
-            });
-            state.activeBannerIndex = state.banners.length - 1;
-            saveState();
-            applyBannerState();
-            showToast("UNGGAH SELESAI — Banner pribadi ditambahkan.");
-          };
-          reader.readAsDataURL(file);
-        });
-        e.target.value = "";
-      });
-
-      document.getElementById("clearAllBannersBtn").addEventListener("click", () => {
-        state.banners = [];
-        state.activeBannerIndex = 0;
-        saveState();
-        applyBannerState();
-        showToast("Semua banner pribadi dihapus.");
-      });
-
-      document.getElementById("glassOpacityRange").addEventListener("input", (e) => {
-        state.glassOpacity = Number(e.target.value) || 72;
-        saveState();
-        applyBannerState();
-      });
-
-      document.querySelectorAll("[data-seek-pct]").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const pct = Number(btn.getAttribute("data-seek-pct")) || 0;
-          const dur = Number(state.durationSec) || 0;
-          if (dur > 0) {
-            seekToSeconds(Math.floor(dur * pct));
-          }
-        });
-      });
-
-      document.getElementById("randomMinuteJumpBtn").addEventListener("click", () => {
-        const dur = Number(state.durationSec) || 0;
-        if (dur <= 0) {
-          showToast("Putar lagu terlebih dahulu untuk mengacak menit.");
-          return;
-        }
-        const randSec = Math.floor(Math.random() * Math.max(5, dur - 10));
-        seekToSeconds(randSec);
-        showToast(`Loncat ke menit ${formatTime(randSec)}`);
-      });
-
-      document.getElementById("minuteJumpForm").addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = document.getElementById("customMinuteInput");
-        const sec = parseMinuteString(input ? input.value : "");
-        if (sec === null) {
-          showToast("Masukkan format menit MM:SS atau angka menit.");
-          return;
-        }
-        seekToSeconds(sec);
-      });
-
-      document.querySelectorAll(".nav-item-btn[data-view]").forEach((btn) => {
+      document.querySelectorAll(".nav-btn[data-view]").forEach((btn) => {
         btn.addEventListener("click", () => {
           state.activeView = btn.getAttribute("data-view");
           state.activePlaylistId = null;
-          updateNavActiveState();
-          renderTracksGrid();
+          saveState();
+          syncNav();
+          renderGrid();
         });
       });
 
-      document.getElementById("createPlaylistForm").addEventListener("submit", (e) => {
+      document.getElementById("playlistForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        const input = document.getElementById("newPlaylistInput");
-        const name = (input && input.value || "").trim();
+        const inp = document.getElementById("playlistNameInput");
+        const name = (inp.value || "").trim();
         if (!name) return;
         state.playlists.push({
           id: `pl-${Date.now()}`,
           name,
           trackIds: state.currentTrackId ? [state.currentTrackId] : []
         });
-        input.value = "";
+        inp.value = "";
         saveState();
         renderPlaylists();
-        showToast(`Playlist "${name}" dibuat.`);
+        notify(`Playlist "${name}" dibuat.`);
       });
 
-      document.querySelectorAll("#sourceFilterPills .filter-pill").forEach((pill) => {
-        pill.addEventListener("click", () => {
-          document.querySelectorAll("#sourceFilterPills .filter-pill").forEach((p) => p.classList.remove("active"));
-          pill.classList.add("active");
-          state.activeSourceFilter = pill.getAttribute("data-source") || "all";
-          renderTracksGrid();
+      document.querySelectorAll("#sourceFilterRow .filter-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          document.querySelectorAll("#sourceFilterRow .filter-chip").forEach((c) => c.classList.remove("active"));
+          chip.classList.add("active");
+          state.activeSource = chip.getAttribute("data-source") || "all";
+          renderGrid();
         });
       });
 
-      document.getElementById("toggleUploadFormBtn").addEventListener("click", () => {
-        const form = document.getElementById("uploadSongForm");
-        if (form) {
-          form.style.display = form.style.display === "none" ? "grid" : "none";
-        }
+      document.getElementById("toggleUploadBtn").addEventListener("click", () => {
+        const box = document.getElementById("uploadForm");
+        box.style.display = box.style.display === "none" ? "grid" : "none";
       });
 
-      document.getElementById("uploadSongForm").addEventListener("submit", (e) => {
+      document.getElementById("uploadForm").addEventListener("submit", (e) => {
         e.preventDefault();
-        const fileInput = document.getElementById("uploadFileInput");
-        const urlInput = document.getElementById("uploadUrlInput");
-        const titleInput = document.getElementById("uploadTitleInput");
-        const artistInput = document.getElementById("uploadArtistInput");
+        const fInput = document.getElementById("audioFileInput");
+        const uInput = document.getElementById("audioUrlInput");
+        const tInput = document.getElementById("audioTitleInput");
+        const aInput = document.getElementById("audioArtistInput");
 
-        const file = fileInput && fileInput.files && fileInput.files[0];
-        const rawUrl = (urlInput && urlInput.value || "").trim();
-        const titleVal = (titleInput && titleInput.value || "").trim();
-        const artistVal = (artistInput && artistInput.value || "").trim();
+        const file = fInput.files && fInput.files[0];
+        const urlVal = (uInput.value || "").trim();
+        const titleVal = (tInput.value || "").trim();
+        const artistVal = (aInput.value || "").trim();
 
-        const finishAdd = (audioSrc) => {
-          const ytId = extractYoutubeId(rawUrl);
-          const newTrack = {
-            id: `upload-${Date.now()}`,
-            title: titleVal || (file ? file.name.replace(/\.[^/.]+$/, "") : "Lagu Unggahan"),
-            artist: artistVal || "Kreator BimSakSin",
-            source: ytId ? "YouTube" : "Unggahan",
-            youtubeId: ytId || undefined,
-            audioUrl: ytId ? "" : audioSrc,
-            url: rawUrl || audioSrc || "",
+        const commitTrack = (src) => {
+          state.libraryTracks.unshift({
+            id: `loc-${Date.now()}`,
+            title: titleVal || (file ? file.name.replace(/\.[^/.]+$/, "") : "Lagu Audio"),
+            artist: artistVal || "Artis Lokal",
+            source: "Audio Lokal",
+            audioUrl: src,
             durationSec: 180,
-            cover: ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : "",
-            genre: "Unggahan"
-          };
-          addTrackToLibrary(newTrack);
-          if (fileInput) fileInput.value = "";
-          if (urlInput) urlInput.value = "";
-          if (titleInput) titleInput.value = "";
-          if (artistInput) artistInput.value = "";
-          showToast("UNGGAH SELESAI — Lagu tersimpan di Penyimpanan Spotify.");
+            cover: "",
+            url: src,
+            genre: "Audio Lokal"
+          });
+          fInput.value = "";
+          uInput.value = "";
+          tInput.value = "";
+          aInput.value = "";
+          saveState();
+          renderGrid();
+          notify("Lagu tersimpan ke Penyimpanan Lagu.");
         };
 
         if (file) {
           const reader = new FileReader();
-          reader.onload = () => finishAdd(String(reader.result || ""));
+          reader.onload = () => commitTrack(String(reader.result || ""));
           reader.readAsDataURL(file);
-        } else if (rawUrl) {
-          finishAdd(rawUrl);
+        } else if (urlVal) {
+          commitTrack(urlVal);
         } else {
-          showToast("Pilih file audio atau masukkan link lagu terlebih dahulu.");
+          notify("Pilih file audio atau isi link stream audio.");
         }
       });
 
-      document.getElementById("mainPlayBtn").addEventListener("click", togglePlayPause);
-      document.getElementById("prevBtn").addEventListener("click", () => playAdjacentTrack(-1));
-      document.getElementById("nextBtn").addEventListener("click", () => playAdjacentTrack(1));
+      document.getElementById("playPauseBtn").addEventListener("click", togglePlay);
+      document.getElementById("prevBtn").addEventListener("click", () => stepTrack(-1));
+      document.getElementById("nextBtn").addEventListener("click", () => stepTrack(1));
 
       document.getElementById("shuffleBtn").addEventListener("click", (e) => {
         state.shuffle = !state.shuffle;
@@ -2739,97 +1886,97 @@
       });
 
       document.getElementById("repeatBtn").addEventListener("click", (e) => {
-        const order = ["off", "all", "one"];
-        const next = order[(order.indexOf(state.repeatMode) + 1) % order.length];
+        const modes = ["off", "all", "one"];
+        const next = modes[(modes.indexOf(state.repeatMode) + 1) % modes.length];
         state.repeatMode = next;
         e.currentTarget.classList.toggle("active", next !== "off");
         e.currentTarget.textContent = next === "one" ? "↻1" : "↻";
         saveState();
       });
 
-      document.getElementById("seekSlider").addEventListener("input", (e) => {
-        seekToSeconds(Number(e.target.value) || 0);
-      });
-
-      document.getElementById("volumeSlider").addEventListener("input", (e) => {
-        const v = Number(e.target.value);
-        state.volume = Number.isFinite(v) ? v : 0.85;
-        audioEl.volume = state.volume;
-        saveState();
-      });
-
-      document.getElementById("playerProfileBtn").addEventListener("click", () => {
-        const tr = findTrackById(state.currentTrackId);
-        if (tr) openSongProfile(tr);
-      });
-
-      document.getElementById("playerFavBtn").addEventListener("click", () => {
-        if (state.currentTrackId) toggleIdInArray("favorites", state.currentTrackId);
-      });
-
-      document.getElementById("playerLoveBtn").addEventListener("click", () => {
-        if (state.currentTrackId) toggleIdInArray("loved", state.currentTrackId);
-      });
-
-      document.getElementById("playerStarBtn").addEventListener("click", () => {
-        if (state.currentTrackId) toggleIdInArray("starred", state.currentTrackId);
-      });
-
-      document.getElementById("playerDownloadBtn").addEventListener("click", () => {
-        const tr = findTrackById(state.currentTrackId);
-        if (tr) downloadTrack(tr);
-      });
-
-      document.getElementById("closeYtDockBtn").addEventListener("click", () => {
-        document.getElementById("ytPlayerDock").classList.remove("visible");
-        document.getElementById("ytFrameBox").innerHTML = "";
-      });
-
-      document.getElementById("closeProfileModalBtn").addEventListener("click", () => {
-        document.getElementById("songProfileModal").classList.remove("open");
-      });
-
-      const apiHubModal = document.getElementById("apiHubModal");
-      document.getElementById("openApiHubBtn").addEventListener("click", () => {
-        document.getElementById("spotifyTokenInput").value = (state.apiConfig && state.apiConfig.spotifyToken) || "";
-        document.getElementById("youtubeApiKeyInput").value = (state.apiConfig && state.apiConfig.youtubeKey) || "";
-        apiHubModal.classList.add("open");
-      });
-
-      document.getElementById("closeApiHubBtn").addEventListener("click", () => {
-        apiHubModal.classList.remove("open");
-      });
-
-      document.getElementById("saveApiKeysBtn").addEventListener("click", () => {
-        state.apiConfig = {
-          spotifyToken: (document.getElementById("spotifyTokenInput").value || "").trim(),
-          youtubeKey: (document.getElementById("youtubeApiKeyInput").value || "").trim()
-        };
-        saveState();
-        showToast("Konfigurasi API tersimpan.");
-      });
-
-      document.getElementById("testApiConnectionBtn").addEventListener("click", async () => {
-        const out = document.getElementById("apiTestResultText");
-        if (out) out.textContent = "Menguji koneksi iTunes & Audius API...";
-        try {
-          const [it, au] = await Promise.allSettled([searchItunes("lofi"), searchAudius("lofi")]);
-          const itOk = it.status === "fulfilled";
-          const auOk = au.status === "fulfilled";
-          if (out) {
-            out.textContent = `iTunes: ${itOk ? "Terhubung" : "Gagal"} | Audius: ${auOk ? "Terhubung" : "Gagal"} | API Menit: Aktif`;
-          }
-        } catch (_) {
-          if (out) out.textContent = "Gagal menguji koneksi API.";
+      document.getElementById("seekBar").addEventListener("input", (e) => {
+        const val = Number(e.target.value);
+        if (Number.isFinite(val) && Number.isFinite(audio.duration)) {
+          audio.currentTime = Math.min(Math.max(0, val), audio.duration);
         }
       });
 
-      /* Initial Render */
-      applyBannerState();
+      document.getElementById("volSlider").addEventListener("input", (e) => {
+        const v = Number(e.target.value);
+        state.volume = Number.isFinite(v) ? v : 0.85;
+        audio.volume = state.volume;
+        saveState();
+      });
+
+      document.getElementById("npProfileBtn").addEventListener("click", () => {
+        const tr = getTrack(state.currentTrackId);
+        if (tr) openProfile(tr);
+      });
+
+      document.getElementById("npFavBtn").addEventListener("click", () => {
+        if (state.currentTrackId) toggleCollection("favorites", state.currentTrackId);
+      });
+
+      document.getElementById("npLoveBtn").addEventListener("click", () => {
+        if (state.currentTrackId) toggleCollection("loved", state.currentTrackId);
+      });
+
+      document.getElementById("npStarBtn").addEventListener("click", () => {
+        if (state.currentTrackId) toggleCollection("starred", state.currentTrackId);
+      });
+
+      document.getElementById("npDownloadBtn").addEventListener("click", () => {
+        const tr = getTrack(state.currentTrackId);
+        if (tr) downloadSong(tr);
+      });
+
+      document.getElementById("closeProfileBtn").addEventListener("click", () => {
+        document.getElementById("profileModal").classList.remove("open");
+      });
+
+      const apiModal = document.getElementById("apiModal");
+      document.getElementById("openApiModalBtn").addEventListener("click", () => {
+        document.getElementById("spotifyBearerInput").value = state.spotifyToken || "";
+        apiModal.classList.add("open");
+      });
+
+      document.getElementById("closeApiModalBtn").addEventListener("click", () => {
+        apiModal.classList.remove("open");
+      });
+
+      document.getElementById("saveSpotifyTokenBtn").addEventListener("click", () => {
+        state.spotifyToken = (document.getElementById("spotifyBearerInput").value || "").trim();
+        saveState();
+        notify("Token Spotify Web API disimpan.");
+      });
+
+      document.getElementById("testSpotifyApiBtn").addEventListener("click", async () => {
+        const out = document.getElementById("apiTestOutput");
+        if (out) out.textContent = "Menguji koneksi Spotify Web API & katalog gratis...";
+        const token = (state.spotifyToken || "").trim();
+        if (!token) {
+          if (out) out.textContent = "Token Spotify belum diisi. Katalog gratis (iTunes & Audius) tetap aktif.";
+          return;
+        }
+        try {
+          const res = await fetch("https://api.spotify.com/v1/search?q=lofi&type=track&limit=1", {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          if (out) {
+            out.textContent = res.ok
+              ? "Spotify Web API terhubung (200 OK)."
+              : `Spotify Web API merespons status ${res.status}. Periksa kembali token Anda.`;
+          }
+        } catch (_) {
+          if (out) out.textContent = "Gagal menghubungi Spotify Web API.";
+        }
+      });
+
+      /* Boot */
+      updateApiBadges();
       renderPlaylists();
-      updateBadges();
-      updateMinuteTelemetry();
-      renderTracksGrid();
+      updateCounts();
+      renderGrid();
     })();
   </script>
 </body>
