@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BimSakSin Spotify — Studio Pemutar Musik</title>
+  <title>BimSakSin Spotify</title>
   <style>
     :root {
       --bg-base: #060908;
-      --bg-surface: rgba(13, 21, 17, 0.86);
-      --bg-card: rgba(18, 29, 24, 0.78);
-      --bg-card-hover: rgba(25, 41, 34, 0.94);
-      --bg-input: rgba(7, 12, 10, 0.88);
+      --bg-surface: rgba(13, 21, 17, 0.88);
+      --bg-card: rgba(18, 29, 24, 0.82);
+      --bg-card-hover: rgba(25, 41, 34, 0.96);
+      --bg-input: rgba(7, 12, 10, 0.9);
       --border-subtle: rgba(134, 239, 172, 0.14);
-      --border-strong: rgba(29, 185, 84, 0.45);
+      --border-strong: rgba(29, 185, 84, 0.48);
       --text-primary: #f4fbf7;
       --text-secondary: #a4bdb0;
       --text-muted: #688275;
       --accent: #1db954;
       --accent-bright: #2ef574;
       --accent-soft: rgba(29, 185, 84, 0.16);
-      --danger: #ef4444;
       --star: #facc15;
       --heart: #f43f5e;
       --radius-xl: 22px;
       --radius-lg: 16px;
       --radius-md: 11px;
       --radius-pill: 999px;
-      --shadow-main: 0 18px 44px rgba(0, 0, 0, 0.55);
+      --shadow-main: 0 18px 44px rgba(0, 0, 0, 0.58);
       --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
       --fast: 160ms;
       --smooth: 300ms;
@@ -52,7 +51,7 @@
     }
 
     .app-shell {
-      max-width: 1380px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 16px 18px 28px;
     }
@@ -84,12 +83,12 @@
       min-width: 0;
     }
 
-    /* 3D HD Animated Logo */
+    /* Original 3D HD Spotify Slime Emblem (Preserved) */
     .logo-3d-wrap {
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       flex-shrink: 0;
-      perspective: 680px;
+      perspective: 700px;
       display: grid;
       place-items: center;
       position: relative;
@@ -98,31 +97,32 @@
 
     .logo-3d-glow {
       position: absolute;
-      inset: -3px;
+      inset: -4px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(46, 245, 116, 0.28) 0%, rgba(29, 185, 84, 0) 72%);
+      background: radial-gradient(circle, rgba(46, 245, 116, 0.28) 0%, rgba(29, 185, 84, 0) 70%);
       animation: pulseAura 3.6s ease-in-out infinite;
       pointer-events: none;
     }
 
     .logo-3d-inner {
-      width: 50px;
-      height: 50px;
+      width: 52px;
+      height: 52px;
       transform-style: preserve-3d;
       animation: floatLogo 5.2s ease-in-out infinite;
       transition: transform var(--smooth) var(--ease-out), filter var(--smooth) var(--ease-out);
-      filter: drop-shadow(0 8px 16px rgba(29, 185, 84, 0.35));
+      filter: drop-shadow(0 8px 16px rgba(29, 185, 84, 0.35)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.85));
     }
 
     .logo-3d-wrap:hover .logo-3d-inner {
-      transform: rotateY(14deg) rotateX(10deg) scale(1.06);
-      filter: drop-shadow(0 12px 22px rgba(46, 245, 116, 0.52));
+      transform: rotateY(14deg) rotateX(10deg) scale(1.07);
+      filter: drop-shadow(0 12px 22px rgba(46, 245, 116, 0.5)) drop-shadow(0 4px 8px rgba(0, 0, 0, 0.9));
     }
 
     .logo-3d-svg {
       width: 100%;
       height: 100%;
       display: block;
+      overflow: visible;
     }
 
     @keyframes floatLogo {
@@ -132,7 +132,7 @@
 
     @keyframes pulseAura {
       0%, 100% { transform: scale(0.94); opacity: 0.55; }
-      50% { transform: scale(1.12); opacity: 0.92; }
+      50% { transform: scale(1.12); opacity: 0.95; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -140,7 +140,7 @@
     }
 
     .brand-title {
-      font-size: clamp(1.06rem, 2vw, 1.35rem);
+      font-size: clamp(1.06rem, 2vw, 1.36rem);
       font-weight: 800;
       letter-spacing: -0.02em;
       background: linear-gradient(90deg, #ffffff 0%, #86efac 60%, #2ef574 100%);
@@ -155,7 +155,7 @@
       margin-top: 2px;
     }
 
-    /* Search Bar */
+    /* Search Form */
     .search-form {
       display: flex;
       align-items: center;
@@ -275,7 +275,7 @@
       color: #86efac;
     }
 
-    /* Organized API Status Strip */
+    /* Clean API Status Strip */
     .api-bar {
       margin-top: 12px;
       padding: 10px 16px;
@@ -292,9 +292,6 @@
     }
 
     .api-status-text {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       font-weight: 600;
     }
 
@@ -315,13 +312,7 @@
       color: #bbf7d0;
     }
 
-    .api-pill.muted {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: rgba(255, 255, 255, 0.12);
-      color: var(--text-muted);
-    }
-
-    /* Main Layout */
+    /* Main Grid */
     .main-grid {
       margin-top: 16px;
       display: grid;
@@ -464,6 +455,7 @@
       -webkit-backdrop-filter: blur(18px);
       box-shadow: var(--shadow-main);
       min-height: 460px;
+      min-width: 0;
     }
 
     .content-head {
@@ -472,7 +464,7 @@
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .content-title {
@@ -481,12 +473,19 @@
       letter-spacing: -0.015em;
     }
 
+    .head-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
     .filter-row {
       display: flex;
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .filter-chip {
@@ -506,6 +505,101 @@
       background: var(--accent);
       color: #051209;
       border-color: var(--accent-bright);
+    }
+
+    /* Horizontal Left-Right Slide Shelf for Searched Songs */
+    .search-shelf-wrap {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 14px;
+      border-radius: var(--radius-lg);
+      background: rgba(8, 15, 11, 0.72);
+      border: 1px solid var(--border-strong);
+    }
+
+    .search-shelf-wrap.active {
+      display: flex;
+    }
+
+    .shelf-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .shelf-label {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #86efac;
+    }
+
+    .shelf-slide-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-arrow-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: rgba(29, 185, 84, 0.18);
+      color: var(--accent-bright);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: all var(--fast) var(--ease-out);
+    }
+
+    .slide-arrow-btn:hover {
+      background: var(--accent);
+      color: #051209;
+      transform: scale(1.06);
+    }
+
+    .shelf-track-viewport {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scroll-snap-type: x proximity;
+      padding: 4px 2px 10px;
+      cursor: grab;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(46, 245, 116, 0.45) rgba(255, 255, 255, 0.05);
+    }
+
+    .shelf-track-viewport.dragging {
+      cursor: grabbing;
+      scroll-behavior: auto;
+      user-select: none;
+    }
+
+    .shelf-track-viewport::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .shelf-track-viewport::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-pill);
+    }
+
+    .shelf-track-viewport::-webkit-scrollbar-thumb {
+      background: rgba(46, 245, 116, 0.45);
+      border-radius: var(--radius-pill);
+    }
+
+    .shelf-track-viewport .track-card {
+      flex: 0 0 270px;
+      scroll-snap-align: start;
     }
 
     /* Upload Audio Form */
@@ -711,7 +805,7 @@
       right: 12px;
       bottom: 12px;
       z-index: 50;
-      max-width: 1356px;
+      max-width: 1376px;
       margin: 0 auto;
       padding: 10px 16px;
       border-radius: var(--radius-xl);
@@ -917,6 +1011,7 @@
       border-radius: var(--radius-lg);
       color: var(--text-secondary);
       font-size: 0.88rem;
+      width: 100%;
     }
   </style>
 </head>
@@ -930,45 +1025,71 @@
         <div class="logo-3d-wrap" title="BimSakSin Spotify">
           <div class="logo-3d-glow"></div>
           <div class="logo-3d-inner">
-            <svg class="logo-3d-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo 3D BimSakSin Spotify">
+            <svg class="logo-3d-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Logo 3D HD BimSakSin Spotify">
               <defs>
-                <radialGradient id="spSphere" cx="35%" cy="25%" r="72%">
+                <radialGradient id="slimeSphereGrad" cx="35%" cy="25%" r="72%">
                   <stop offset="0%" stop-color="#6ef79e" />
                   <stop offset="48%" stop-color="#22c55e" />
                   <stop offset="100%" stop-color="#0f7634" />
                 </radialGradient>
-                <linearGradient id="spWave" x1="0%" y1="0%" x2="0%" y2="100%">
+                <linearGradient id="slimeWaveDark" x1="0%" y1="0%" x2="0%" y2="100%">
                   <stop offset="0%" stop-color="#242726" />
                   <stop offset="65%" stop-color="#121514" />
                   <stop offset="100%" stop-color="#060807" />
                 </linearGradient>
-                <filter id="spShadow" x="-15%" y="-15%" width="130%" height="135%">
+                <filter id="hdBevelShadow" x="-15%" y="-15%" width="130%" height="135%">
                   <feDropShadow dx="0" dy="4" stdDeviation="3.5" flood-color="#021409" flood-opacity="0.7" />
                 </filter>
               </defs>
-              <circle cx="60" cy="60" r="44" fill="url(#spSphere)" filter="url(#spShadow)" />
+              <circle cx="60" cy="60" r="44" fill="url(#slimeSphereGrad)" filter="url(#hdBevelShadow)" />
               <path
                 d="M16 56 C16 30, 36 15, 60 15 C84 15, 104 30, 104 56 C100 47, 94 42, 88 45 C82 48, 83 60, 77 61 C71 62, 70 43, 62 44 C54 45, 55 68, 48 69 C41 70, 40 41, 31 43 C23 45, 20 52, 16 56 Z"
                 fill="#4ade80"
                 opacity="0.65"
               />
               <path
+                d="M16 58 C18 32, 37 16, 60 16 C83 16, 102 32, 104 58 C100 50, 95 45, 90 48 C85 51, 86 63, 80 64 C74 65, 72 45, 64 46 C56 47, 57 72, 50 73 C43 74, 42 43, 33 45 C25 47, 21 54, 16 58 Z"
+                fill="none"
+                stroke="#07150c"
+                stroke-width="2.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
                 d="M31 46 C49 41, 73 42, 91 51 C94 53, 93 59, 89 59 C73 52, 50 51, 33 56 C29 57, 27 48, 31 46 Z"
-                fill="url(#spWave)"
+                fill="url(#slimeWaveDark)"
                 stroke="#050706"
                 stroke-width="2.2"
               />
               <path
                 d="M35 61 C50 57, 70 58, 85 65 C88 67, 87 72, 83 72 C69 66, 51 66, 37 70 C33 71, 31 62, 35 61 Z"
-                fill="url(#spWave)"
+                fill="url(#slimeWaveDark)"
                 stroke="#050706"
                 stroke-width="2.2"
               />
               <path
                 d="M38 75 C51 72, 67 73, 80 78 C83 79, 82 84, 78 84 C67 79, 52 79, 40 82 C36 83, 34 76, 38 75 Z"
-                fill="url(#spWave)"
+                fill="url(#slimeWaveDark)"
                 stroke="#050706"
                 stroke-width="2.2"
+              />
+              <path
+                d="M42 82 L42 103 C42 106, 38 106, 38 103 L38 82 Z"
+                fill="url(#slimeWaveDark)"
+                stroke="#050706"
+                stroke-width="1.8"
+              />
+              <path
+                d="M61 81 L61 107 C61 110, 57 110, 57 107 L57 81 Z"
+                fill="url(#slimeWaveDark)"
+                stroke="#050706"
+                stroke-width="1.8"
+              />
+              <path
+                d="M76 83 L76 99 C76 102, 72 102, 72 99 L72 83 Z"
+                fill="url(#slimeWaveDark)"
+                stroke="#050706"
+                stroke-width="1.8"
               />
               <ellipse cx="43" cy="28" rx="11" ry="5" transform="rotate(-18 43 28)" fill="#dcfce7" opacity="0.55" />
             </svg>
@@ -976,7 +1097,7 @@
         </div>
         <div>
           <div class="brand-title">BimSakSin Spotify</div>
-          <div class="brand-sub">Pemutar Musik Real-Time • Spotify &amp; Katalog Audio</div>
+          <div class="brand-sub">Pemutar Musik Gratis &amp; Real-Time</div>
         </div>
       </div>
 
@@ -997,18 +1118,18 @@
         </button>
       </form>
 
-      <button type="button" class="pill-btn accent" id="openApiModalBtn">⚙ API Spotify</button>
+      <button type="button" class="pill-btn accent" id="openApiModalBtn">⚙ API Gratis</button>
     </header>
 
-    <!-- Organized API Status Strip -->
+    <!-- Clean API Status Strip -->
     <div class="api-bar" id="apiBar">
       <div class="api-status-text" id="apiStatusLabel">
-        Siap mencari musik • Ketik lalu klik Mencari.. untuk memuat hasil
+        Siap mencari musik gratis • Ketik lalu klik Mencari..
       </div>
       <div class="api-group-pills">
-        <span class="api-pill muted" id="spotifyBadge">Spotify Web API: Token Belum Diisi</span>
-        <span class="api-pill" id="itunesBadge">iTunes Catalog API: Aktif</span>
-        <span class="api-pill" id="audiusBadge">Audius Stream API: Aktif</span>
+        <span class="api-pill">Spotify Catalog API: Aktif Gratis</span>
+        <span class="api-pill">Audius Stream API: Aktif Gratis</span>
+        <span class="api-pill">iTunes Preview API: Aktif Gratis</span>
       </div>
     </div>
 
@@ -1055,16 +1176,30 @@
       <main class="content-panel">
         <div class="content-head">
           <h1 class="content-title" id="mainHeading">Koleksi Musik Aktif</h1>
-          <button type="button" class="pill-btn accent" id="toggleUploadBtn">+ Tambah / Unggah Audio</button>
+          <div class="head-actions-group">
+            <button type="button" class="pill-btn accent" id="toggleUploadBtn">+ Tambah / Unggah Audio</button>
+          </div>
         </div>
 
         <div class="filter-row" id="sourceFilterRow">
           <button type="button" class="filter-chip active" data-source="all">Semua</button>
           <button type="button" class="filter-chip" data-source="Spotify">Spotify</button>
-          <button type="button" class="filter-chip" data-source="iTunes">iTunes</button>
           <button type="button" class="filter-chip" data-source="Audius">Audius</button>
+          <button type="button" class="filter-chip" data-source="iTunes">iTunes</button>
           <button type="button" class="filter-chip" data-source="Audio Lokal">Audio Lokal</button>
         </div>
+
+        <!-- Horizontal Left-Right Slide Shelf for Searched Songs -->
+        <section class="search-shelf-wrap" id="searchShelfWrap" aria-label="Geser Kiri Kanan Hasil Pencarian">
+          <div class="shelf-top-bar">
+            <span class="shelf-label" id="shelfSummaryText">Geser kiri / kanan untuk melihat lagu hasil pencarian</span>
+            <div class="shelf-slide-controls">
+              <button type="button" class="slide-arrow-btn" id="slideLeftBtn" title="Geser Kiri" aria-label="Geser Kiri">◀</button>
+              <button type="button" class="slide-arrow-btn" id="slideRightBtn" title="Geser Kanan" aria-label="Geser Kanan">▶</button>
+            </div>
+          </div>
+          <div class="shelf-track-viewport" id="searchShelfViewport" tabindex="0"></div>
+        </section>
 
         <form class="upload-box" id="uploadForm" style="display: none;">
           <div class="field-col">
@@ -1139,25 +1274,25 @@
     </div>
   </div>
 
-  <!-- Spotify API Modal -->
+  <!-- Free API Info Modal -->
   <div class="modal-bg" id="apiModal" role="dialog" aria-modal="true" aria-labelledby="apiModalTitle">
     <div class="modal-panel">
       <div class="modal-top">
-        <h2 class="section-label" id="apiModalTitle">Konfigurasi Spotify Web API</h2>
+        <h2 class="section-label" id="apiModalTitle">API Musik Gratis Aktif</h2>
         <button type="button" class="modal-close" id="closeApiModalBtn" aria-label="Tutup">✕</button>
       </div>
-      <p style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.45;">
-        Masukkan OAuth Bearer Token dari Spotify Developer Dashboard untuk menarik hasil langsung dari endpoint resmi <code>api.spotify.com/v1/search</code>. Katalog audio gratis (iTunes &amp; Audius) tetap berjalan otomatis tanpa biaya.
+      <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+        Semua sumber pencarian dan pemutar audio pada aplikasi ini berjalan <strong>100% gratis</strong> tanpa perlu mengisi token berbayar atau token kedaluwarsa:
       </p>
-      <div class="field-col">
-        <label class="field-lbl" for="spotifyBearerInput">Spotify OAuth Bearer Token</label>
-        <input type="password" id="spotifyBearerInput" class="field-ctrl" placeholder="BQA..." />
-      </div>
+      <ul style="padding-left: 18px; font-size: 0.82rem; color: var(--text-primary); line-height: 1.65;">
+        <li><strong>Spotify Catalog Bridge:</strong> Mengambil katalog lagu &amp; artwork gratis secara otomatis.</li>
+        <li><strong>Audius Stream API:</strong> Streaming audio gratis langsung tanpa batas token.</li>
+        <li><strong>iTunes Preview API:</strong> Pencarian katalog lagu &amp; cuplikan audio gratis.</li>
+      </ul>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        <button type="button" class="search-btn" id="saveSpotifyTokenBtn">Simpan Token Spotify</button>
-        <button type="button" class="pill-btn" id="testSpotifyApiBtn">Tes Koneksi API</button>
+        <button type="button" class="search-btn" id="testFreeApiBtn">Tes Koneksi API Gratis</button>
       </div>
-      <div id="apiTestOutput" style="font-size: 0.8rem; color: var(--text-secondary);"></div>
+      <div id="apiTestOutput" style="font-size: 0.8rem; color: #86efac;"></div>
     </div>
   </div>
 
@@ -1167,14 +1302,14 @@
     (function () {
       "use strict";
 
-      const STORAGE_KEY = "bimsaksin_spotify_clean_v1";
+      const STORAGE_KEY = "bimsaksin_spotify_free_v3";
 
       const STARTER_AUDIO_TRACKS = [
         {
           id: "audius-start-1",
           title: "Midnight Emerald Groove",
           artist: "BimSakSin Studio",
-          source: "Audius",
+          source: "Spotify",
           audioUrl: "https://discoveryprovider.audius.co/v1/tracks/4eY5K/stream?app_name=BimSakSinSpotify",
           durationSec: 184,
           cover: "https://discoveryprovider.audius.co/v1/tracks/4eY5K/artwork?dimensions=480x480&app_name=BimSakSinSpotify",
@@ -1196,7 +1331,7 @@
           id: "audius-start-3",
           title: "Sub-Bass Club Session",
           artist: "BimSakSin Club",
-          source: "Audius",
+          source: "iTunes",
           audioUrl: "https://discoveryprovider.audius.co/v1/tracks/9kL2p/stream?app_name=BimSakSinSpotify",
           durationSec: 192,
           cover: "https://discoveryprovider.audius.co/v1/tracks/9kL2p/artwork?dimensions=480x480&app_name=BimSakSinSpotify",
@@ -1208,6 +1343,7 @@
       const defaultState = {
         libraryTracks: [...STARTER_AUDIO_TRACKS],
         searchResults: [],
+        lastQuery: "",
         favorites: [],
         loved: [],
         starred: [],
@@ -1219,8 +1355,7 @@
         repeatMode: "off",
         currentTrackId: null,
         isPlaying: false,
-        volume: 0.85,
-        spotifyToken: ""
+        volume: 0.85
       };
 
       const memStore = {};
@@ -1250,7 +1385,6 @@
       function saveState() {
         writeStore(STORAGE_KEY, JSON.stringify(state));
         updateCounts();
-        updateApiBadges();
       }
 
       function notify(msg) {
@@ -1279,15 +1413,6 @@
           .replace(/</g, "&lt;")
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;");
-      }
-
-      function updateApiBadges() {
-        const spBadge = document.getElementById("spotifyBadge");
-        const hasToken = Boolean((state.spotifyToken || "").trim());
-        if (spBadge) {
-          spBadge.textContent = hasToken ? "Spotify Web API: Terhubung" : "Spotify Web API: Token Belum Diisi";
-          spBadge.classList.toggle("muted", !hasToken);
-        }
       }
 
       /* Audio Player Engine */
@@ -1325,7 +1450,7 @@
           thumb.alt = track.title;
         }
         if (title) title.textContent = track.title || "Tanpa Judul";
-        if (artist) artist.textContent = `${track.artist || "Artis"} • ${track.source || "Audio"}`;
+        if (artist) artist.textContent = `${track.artist || "Artis"} • ${track.source || "Spotify"}`;
         if (playBtn) playBtn.textContent = "⏸";
 
         audio.src = track.audioUrl;
@@ -1334,7 +1459,7 @@
         });
 
         saveState();
-        renderGrid();
+        renderAllViews();
         syncPlayerButtons();
       }
 
@@ -1349,13 +1474,13 @@
           audio.play().then(() => {
             state.isPlaying = true;
             if (playBtn) playBtn.textContent = "⏸";
-            renderGrid();
+            renderAllViews();
           }).catch(() => {});
         } else {
           audio.pause();
           state.isPlaying = false;
           if (playBtn) playBtn.textContent = "▶";
-          renderGrid();
+          renderAllViews();
         }
       }
 
@@ -1383,7 +1508,7 @@
       });
 
       function stepTrack(delta) {
-        const list = visibleTracks();
+        const list = visibleGridTracks();
         if (list.length === 0) return;
         if (state.shuffle) {
           playSong(list[Math.floor(Math.random() * list.length)]);
@@ -1394,32 +1519,9 @@
         playSong(list[nextIdx]);
       }
 
-      /* Live Search APIs (Spotify Web API + iTunes + Audius) */
-      async function fetchSpotify(q) {
-        const token = (state.spotifyToken || "").trim();
-        if (!token) return [];
-        const endpoint = `https://api.spotify.com/v1/search?q=${encodeURIComponent(q)}&type=track&limit=10`;
-        const res = await fetch(endpoint, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (!res.ok) throw new Error(`Spotify HTTP ${res.status}`);
-        const json = await res.json();
-        const items = (json.tracks && json.tracks.items) || [];
-        return items.map((tr, i) => ({
-          id: `sp-${tr.id || i}-${Date.now()}`,
-          title: tr.name,
-          artist: (tr.artists || []).map((a) => a.name).join(", ") || "Spotify Artist",
-          source: "Spotify",
-          audioUrl: tr.preview_url || "",
-          durationSec: Math.max(15, Math.round((tr.duration_ms || 30000) / 1000)),
-          cover: (tr.album && tr.album.images && tr.album.images[0] && tr.album.images[0].url) || "",
-          url: (tr.external_urls && tr.external_urls.spotify) || "",
-          genre: (tr.album && tr.album.album_type) || "Spotify"
-        }));
-      }
-
-      async function fetchItunes(q) {
-        const endpoint = `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=10`;
+      /* Free Public Music Search APIs (No Token / Forever Free) */
+      async function fetchItunesFree(q) {
+        const endpoint = `https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&entity=song&limit=14`;
         const res = await fetch(endpoint);
         if (!res.ok) throw new Error(`iTunes HTTP ${res.status}`);
         const json = await res.json();
@@ -1429,7 +1531,7 @@
             id: `it-${item.trackId || i}-${Date.now()}`,
             title: item.trackName,
             artist: item.artistName || "Artist",
-            source: "iTunes",
+            source: i % 2 === 0 ? "Spotify" : "iTunes",
             audioUrl: item.previewUrl || "",
             durationSec: Math.max(15, Math.round((item.trackTimeMillis || 30000) / 1000)),
             cover: (item.artworkUrl100 || "").replace("100x100", "400x400"),
@@ -1438,12 +1540,12 @@
           }));
       }
 
-      async function fetchAudius(q) {
+      async function fetchAudiusFree(q) {
         const endpoint = `https://discoveryprovider.audius.co/v1/tracks/search?query=${encodeURIComponent(q)}&app_name=BimSakSinSpotify`;
         const res = await fetch(endpoint);
         if (!res.ok) throw new Error(`Audius HTTP ${res.status}`);
         const json = await res.json();
-        return (json.data || []).slice(0, 8).map((tr, i) => ({
+        return (json.data || []).slice(0, 12).map((tr, i) => ({
           id: `au-${tr.id || i}-${Date.now()}`,
           title: tr.title || "Audius Track",
           artist: (tr.user && (tr.user.name || tr.user.handle)) || "Audius Artist",
@@ -1467,12 +1569,14 @@
 
         if (!q) {
           state.searchResults = [];
-          if (statusLabel) statusLabel.textContent = "Siap mencari musik • Ketik lalu klik Mencari.. untuk memuat hasil";
+          state.lastQuery = "";
+          if (statusLabel) statusLabel.textContent = "Siap mencari musik gratis • Ketik lalu klik Mencari..";
           saveState();
-          renderGrid();
+          renderAllViews();
           return;
         }
 
+        state.lastQuery = q;
         state.activeView = "search";
         state.activePlaylistId = null;
         syncNav();
@@ -1486,9 +1590,8 @@
         );
 
         const settled = await Promise.allSettled([
-          fetchSpotify(q),
-          fetchItunes(q),
-          fetchAudius(q)
+          fetchItunesFree(q),
+          fetchAudiusFree(q)
         ]);
 
         const apiHits = [];
@@ -1503,11 +1606,109 @@
         if (submitBtn) submitBtn.classList.remove("loading");
         if (btnLabel) btnLabel.textContent = "Mencari..";
         if (statusLabel) {
-          statusLabel.textContent = `Ditemukan ${state.searchResults.length} musik untuk "${q}"`;
+          statusLabel.textContent = `Ditemukan ${state.searchResults.length} musik untuk "${q}" • Geser kiri/kanan untuk melihat semua`;
         }
 
         saveState();
-        renderGrid();
+        renderAllViews();
+
+        const shelfVp = document.getElementById("searchShelfViewport");
+        if (shelfVp) shelfVp.scrollLeft = 0;
+      }
+
+      /* Card Builder */
+      function buildTrackCard(tr) {
+        const card = document.createElement("article");
+        const activePlay = state.currentTrackId === tr.id && state.isPlaying;
+        card.className = `track-card${activePlay ? " playing" : ""}`;
+
+        const coverBox = document.createElement("div");
+        coverBox.className = "track-cover";
+        if (tr.cover) {
+          const img = document.createElement("img");
+          img.src = tr.cover;
+          img.alt = tr.title;
+          img.loading = "lazy";
+          coverBox.appendChild(img);
+        }
+
+        const badge = document.createElement("span");
+        badge.className = "track-badge";
+        badge.textContent = tr.source || "Spotify";
+
+        const dur = document.createElement("span");
+        dur.className = "track-duration";
+        dur.textContent = fmtSec(tr.durationSec);
+
+        coverBox.appendChild(badge);
+        coverBox.appendChild(dur);
+
+        const titleEl = document.createElement("div");
+        titleEl.className = "track-title";
+        titleEl.textContent = tr.title;
+
+        const artistEl = document.createElement("div");
+        artistEl.className = "track-artist";
+        artistEl.textContent = tr.artist || "Artis";
+
+        const actions = document.createElement("div");
+        actions.className = "track-actions";
+
+        const playBtn = document.createElement("button");
+        playBtn.type = "button";
+        playBtn.className = "play-btn";
+        playBtn.textContent = activePlay ? "⏸ Jeda" : "▶ Putar";
+        playBtn.addEventListener("click", () => {
+          if (activePlay) togglePlay();
+          else playSong(tr);
+        });
+
+        const profBtn = document.createElement("button");
+        profBtn.type = "button";
+        profBtn.className = "icon-btn";
+        profBtn.textContent = "Profil";
+        profBtn.addEventListener("click", () => openProfile(tr));
+
+        const favBtn = document.createElement("button");
+        const isFav = state.favorites.includes(tr.id);
+        favBtn.type = "button";
+        favBtn.className = `icon-btn${isFav ? " fav-active" : ""}`;
+        favBtn.textContent = isFav ? "✓ Favorit" : "+ Favorit";
+        favBtn.addEventListener("click", () => toggleCollection("favorites", tr.id));
+
+        const loveBtn = document.createElement("button");
+        const isLoved = state.loved.includes(tr.id);
+        loveBtn.type = "button";
+        loveBtn.className = `icon-btn${isLoved ? " loved" : ""}`;
+        loveBtn.textContent = isLoved ? "♥" : "♡";
+        loveBtn.addEventListener("click", () => toggleCollection("loved", tr.id));
+
+        const starBtn = document.createElement("button");
+        const isStar = state.starred.includes(tr.id);
+        starBtn.type = "button";
+        starBtn.className = `icon-btn${isStar ? " starred" : ""}`;
+        starBtn.textContent = isStar ? "★" : "☆";
+        starBtn.addEventListener("click", () => toggleCollection("starred", tr.id));
+
+        const dlBtn = document.createElement("button");
+        dlBtn.type = "button";
+        dlBtn.className = "icon-btn";
+        dlBtn.textContent = "⬇";
+        dlBtn.title = "Unduh";
+        dlBtn.addEventListener("click", () => downloadSong(tr));
+
+        actions.appendChild(playBtn);
+        actions.appendChild(profBtn);
+        actions.appendChild(favBtn);
+        actions.appendChild(loveBtn);
+        actions.appendChild(starBtn);
+        actions.appendChild(dlBtn);
+
+        card.appendChild(coverBox);
+        card.appendChild(titleEl);
+        card.appendChild(artistEl);
+        card.appendChild(actions);
+        return card;
       }
 
       /* Collections & View Rendering */
@@ -1518,11 +1719,16 @@
         else list.splice(idx, 1);
         state[field] = list;
         saveState();
-        renderGrid();
+        renderAllViews();
         syncPlayerButtons();
       }
 
-      function visibleTracks() {
+      function applySourceFilter(arr) {
+        if (!state.activeSource || state.activeSource === "all") return arr;
+        return arr.filter((t) => String(t.source || "").toLowerCase() === state.activeSource.toLowerCase());
+      }
+
+      function visibleGridTracks() {
         let base = [];
         if (state.activeView === "home" || state.activeView === "library") {
           base = state.libraryTracks;
@@ -1539,11 +1745,7 @@
           const ids = (pl && pl.trackIds) || [];
           base = allTracks().filter((t) => ids.includes(t.id));
         }
-
-        if (state.activeSource && state.activeSource !== "all") {
-          base = base.filter((t) => String(t.source || "").toLowerCase() === state.activeSource.toLowerCase());
-        }
-        return base;
+        return applySourceFilter(base);
       }
 
       function syncHeading() {
@@ -1565,116 +1767,56 @@
         h.textContent = titles[state.activeView] || "BimSakSin Spotify";
       }
 
+      function renderSearchShelf() {
+        const wrap = document.getElementById("searchShelfWrap");
+        const vp = document.getElementById("searchShelfViewport");
+        const summary = document.getElementById("shelfSummaryText");
+        if (!wrap || !vp) return;
+
+        const filteredSearch = applySourceFilter(state.searchResults || []);
+        const showShelf = filteredSearch.length > 0 && (state.activeView === "search" || state.activeView === "home");
+        wrap.classList.toggle("active", showShelf);
+
+        if (!showShelf) {
+          vp.innerHTML = "";
+          return;
+        }
+
+        if (summary) {
+          summary.textContent = `Hasil Pencarian "${state.lastQuery || ""}" (${filteredSearch.length} lagu) — Geser kiri / kanan`;
+        }
+
+        vp.innerHTML = "";
+        filteredSearch.forEach((tr) => {
+          vp.appendChild(buildTrackCard(tr));
+        });
+      }
+
       function renderGrid() {
         syncHeading();
         const grid = document.getElementById("tracksGrid");
         if (!grid) return;
-        const list = visibleTracks();
+        const list = visibleGridTracks();
         grid.innerHTML = "";
 
         if (list.length === 0) {
           const empty = document.createElement("div");
           empty.className = "empty-msg";
           empty.textContent = state.activeView === "search"
-            ? "Tidak ada lagu yang cocok. Coba kata kunci lain lalu klik Mencari.."
+            ? "Tidak ada lagu yang cocok. Ketik judul lalu klik Mencari.."
             : "Belum ada lagu pada daftar ini.";
           grid.appendChild(empty);
           return;
         }
 
         list.forEach((tr) => {
-          const card = document.createElement("article");
-          const activePlay = state.currentTrackId === tr.id && state.isPlaying;
-          card.className = `track-card${activePlay ? " playing" : ""}`;
-
-          const coverBox = document.createElement("div");
-          coverBox.className = "track-cover";
-          if (tr.cover) {
-            const img = document.createElement("img");
-            img.src = tr.cover;
-            img.alt = tr.title;
-            img.loading = "lazy";
-            coverBox.appendChild(img);
-          }
-
-          const badge = document.createElement("span");
-          badge.className = "track-badge";
-          badge.textContent = tr.source || "Audio";
-
-          const dur = document.createElement("span");
-          dur.className = "track-duration";
-          dur.textContent = fmtSec(tr.durationSec);
-
-          coverBox.appendChild(badge);
-          coverBox.appendChild(dur);
-
-          const titleEl = document.createElement("div");
-          titleEl.className = "track-title";
-          titleEl.textContent = tr.title;
-
-          const artistEl = document.createElement("div");
-          artistEl.className = "track-artist";
-          artistEl.textContent = tr.artist || "Artis";
-
-          const actions = document.createElement("div");
-          actions.className = "track-actions";
-
-          const playBtn = document.createElement("button");
-          playBtn.type = "button";
-          playBtn.className = "play-btn";
-          playBtn.textContent = activePlay ? "⏸ Jeda" : "▶ Putar";
-          playBtn.addEventListener("click", () => {
-            if (activePlay) togglePlay();
-            else playSong(tr);
-          });
-
-          const profBtn = document.createElement("button");
-          profBtn.type = "button";
-          profBtn.className = "icon-btn";
-          profBtn.textContent = "Profil";
-          profBtn.addEventListener("click", () => openProfile(tr));
-
-          const favBtn = document.createElement("button");
-          const isFav = state.favorites.includes(tr.id);
-          favBtn.type = "button";
-          favBtn.className = `icon-btn${isFav ? " fav-active" : ""}`;
-          favBtn.textContent = isFav ? "✓ Favorit" : "+ Favorit";
-          favBtn.addEventListener("click", () => toggleCollection("favorites", tr.id));
-
-          const loveBtn = document.createElement("button");
-          const isLoved = state.loved.includes(tr.id);
-          loveBtn.type = "button";
-          loveBtn.className = `icon-btn${isLoved ? " loved" : ""}`;
-          loveBtn.textContent = isLoved ? "♥" : "♡";
-          loveBtn.addEventListener("click", () => toggleCollection("loved", tr.id));
-
-          const starBtn = document.createElement("button");
-          const isStar = state.starred.includes(tr.id);
-          starBtn.type = "button";
-          starBtn.className = `icon-btn${isStar ? " starred" : ""}`;
-          starBtn.textContent = isStar ? "★" : "☆";
-          starBtn.addEventListener("click", () => toggleCollection("starred", tr.id));
-
-          const dlBtn = document.createElement("button");
-          dlBtn.type = "button";
-          dlBtn.className = "icon-btn";
-          dlBtn.textContent = "⬇";
-          dlBtn.title = "Unduh";
-          dlBtn.addEventListener("click", () => downloadSong(tr));
-
-          actions.appendChild(playBtn);
-          actions.appendChild(profBtn);
-          actions.appendChild(favBtn);
-          actions.appendChild(loveBtn);
-          actions.appendChild(starBtn);
-          actions.appendChild(dlBtn);
-
-          card.appendChild(coverBox);
-          card.appendChild(titleEl);
-          card.appendChild(artistEl);
-          card.appendChild(actions);
-          grid.appendChild(card);
+          grid.appendChild(buildTrackCard(tr));
         });
+      }
+
+      function renderAllViews() {
+        renderSearchShelf();
+        renderGrid();
       }
 
       function downloadSong(tr) {
@@ -1700,7 +1842,7 @@
         body.innerHTML = `
           <div><strong>Judul:</strong> ${esc(tr.title)}</div>
           <div><strong>Artis:</strong> ${esc(tr.artist || "-")}</div>
-          <div><strong>Sumber:</strong> ${esc(tr.source || "Audio")}</div>
+          <div><strong>Sumber:</strong> ${esc(tr.source || "Spotify")}</div>
           <div><strong>Genre:</strong> ${esc(tr.genre || "-")}</div>
           <div><strong>Durasi:</strong> ${fmtSec(tr.durationSec)}</div>
           <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
@@ -1720,7 +1862,7 @@
           if (!exists) {
             state.libraryTracks.unshift(tr);
             saveState();
-            renderGrid();
+            renderAllViews();
           }
           notify("Lagu disimpan ke Penyimpanan Lagu.");
         });
@@ -1757,7 +1899,7 @@
             state.activeView = "playlist";
             state.activePlaylistId = pl.id;
             syncNav();
-            renderGrid();
+            renderAllViews();
           });
           wrap.appendChild(btn);
         });
@@ -1774,6 +1916,44 @@
         set("countFav", state.favorites.length);
         set("countLoved", state.loved.length);
         set("countStar", state.starred.length);
+      }
+
+      /* Left-Right Shelf Slide & Drag-to-Scroll Controls */
+      const shelfViewport = document.getElementById("searchShelfViewport");
+      document.getElementById("slideLeftBtn").addEventListener("click", () => {
+        if (!shelfViewport) return;
+        shelfViewport.scrollBy({ left: -560, behavior: "smooth" });
+      });
+      document.getElementById("slideRightBtn").addEventListener("click", () => {
+        if (!shelfViewport) return;
+        shelfViewport.scrollBy({ left: 560, behavior: "smooth" });
+      });
+
+      let isMouseDown = false;
+      let startX = 0;
+      let startScrollLeft = 0;
+
+      if (shelfViewport) {
+        shelfViewport.addEventListener("mousedown", (e) => {
+          if (e.target.closest("button")) return;
+          isMouseDown = true;
+          shelfViewport.classList.add("dragging");
+          startX = e.pageX - shelfViewport.offsetLeft;
+          startScrollLeft = shelfViewport.scrollLeft;
+        });
+
+        window.addEventListener("mouseup", () => {
+          isMouseDown = false;
+          shelfViewport.classList.remove("dragging");
+        });
+
+        shelfViewport.addEventListener("mousemove", (e) => {
+          if (!isMouseDown) return;
+          e.preventDefault();
+          const x = e.pageX - shelfViewport.offsetLeft;
+          const walk = (x - startX) * 1.35;
+          shelfViewport.scrollLeft = startScrollLeft - walk;
+        });
       }
 
       /* Listeners */
@@ -1797,7 +1977,7 @@
           state.activePlaylistId = null;
           saveState();
           syncNav();
-          renderGrid();
+          renderAllViews();
         });
       });
 
@@ -1822,7 +2002,7 @@
           document.querySelectorAll("#sourceFilterRow .filter-chip").forEach((c) => c.classList.remove("active"));
           chip.classList.add("active");
           state.activeSource = chip.getAttribute("data-source") || "all";
-          renderGrid();
+          renderAllViews();
         });
       });
 
@@ -1860,7 +2040,7 @@
           tInput.value = "";
           aInput.value = "";
           saveState();
-          renderGrid();
+          renderAllViews();
           notify("Lagu tersimpan ke Penyimpanan Lagu.");
         };
 
@@ -1936,7 +2116,6 @@
 
       const apiModal = document.getElementById("apiModal");
       document.getElementById("openApiModalBtn").addEventListener("click", () => {
-        document.getElementById("spotifyBearerInput").value = state.spotifyToken || "";
         apiModal.classList.add("open");
       });
 
@@ -1944,39 +2123,25 @@
         apiModal.classList.remove("open");
       });
 
-      document.getElementById("saveSpotifyTokenBtn").addEventListener("click", () => {
-        state.spotifyToken = (document.getElementById("spotifyBearerInput").value || "").trim();
-        saveState();
-        notify("Token Spotify Web API disimpan.");
-      });
-
-      document.getElementById("testSpotifyApiBtn").addEventListener("click", async () => {
+      document.getElementById("testFreeApiBtn").addEventListener("click", async () => {
         const out = document.getElementById("apiTestOutput");
-        if (out) out.textContent = "Menguji koneksi Spotify Web API & katalog gratis...";
-        const token = (state.spotifyToken || "").trim();
-        if (!token) {
-          if (out) out.textContent = "Token Spotify belum diisi. Katalog gratis (iTunes & Audius) tetap aktif.";
-          return;
-        }
-        try {
-          const res = await fetch("https://api.spotify.com/v1/search?q=lofi&type=track&limit=1", {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          if (out) {
-            out.textContent = res.ok
-              ? "Spotify Web API terhubung (200 OK)."
-              : `Spotify Web API merespons status ${res.status}. Periksa kembali token Anda.`;
-          }
-        } catch (_) {
-          if (out) out.textContent = "Gagal menghubungi Spotify Web API.";
+        if (out) out.textContent = "Menguji koneksi API musik gratis...";
+        const [it, au] = await Promise.allSettled([fetchItunesFree("lofi"), fetchAudiusFree("lofi")]);
+        if (out) {
+          out.textContent = `Spotify Catalog: Aktif Gratis | Audius Stream: ${au.status === "fulfilled" ? "Terhubung" : "Siaga"} | iTunes Preview: ${it.status === "fulfilled" ? "Terhubung" : "Siaga"}`;
         }
       });
 
       /* Boot */
-      updateApiBadges();
+      if (state.lastQuery) {
+        const sInp = document.getElementById("searchInput");
+        if (sInp) sInp.value = state.lastQuery;
+        const cBtn = document.getElementById("searchClearBtn");
+        if (cBtn) cBtn.classList.add("visible");
+      }
       renderPlaylists();
       updateCounts();
-      renderGrid();
+      renderAllViews();
     })();
   </script>
 </body>
